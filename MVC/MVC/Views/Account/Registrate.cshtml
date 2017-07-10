@@ -1,0 +1,36 @@
+﻿@model MVC.Models.LoginViewModel
+@{
+    ViewBag.Title = "Registrate";
+}
+
+@Html.ValidationSummary()
+
+
+@using (Html.BeginForm())
+            {
+    @Html.AntiForgeryToken();
+    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+    <center>
+        <div class="form-group" style="margin-top:10%; width:350px; ">
+
+            <br />
+            <label>E-mail</label>
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @style = "width:300px" })
+            <label>Имя</label>
+            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @style = "width:300px" })
+            <label>Пароль</label>
+            @Html.PasswordFor(x => x.Password, new { @class = "form-control", @style = "width:300px" })
+            <br />
+
+            <div class="editor-field">
+                @Html.reCaptcha()
+            </div>
+            <br />
+
+            <div>
+                <a href="Login" class="btn btn-primary" style="width:100px">Войти</a>
+                <button class="btn btn-success" style="margin-left:10px; width:180px" type="submit">Создать аккаунт</button>
+            </div>
+        </div>
+    </center>
+}
