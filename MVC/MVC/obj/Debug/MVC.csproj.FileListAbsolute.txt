@@ -1,78 +1,76 @@
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\csc.exe
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\csc.exe.config
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\csc.rsp
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\csi.exe
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\csi.rsp
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\Microsoft.CodeAnalysis.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\Microsoft.CSharp.Core.targets
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\Microsoft.VisualBasic.Core.targets
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\System.AppContext.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\System.Collections.Immutable.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\System.Diagnostics.StackTrace.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\System.IO.FileSystem.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\System.IO.FileSystem.Primitives.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\System.Reflection.Metadata.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\vbc.exe
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\vbc.exe.config
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\vbc.rsp
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\VBCSCompiler.exe
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\roslyn\VBCSCompiler.exe.config
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\MVC.dll.config
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\MVC.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\MVC.pdb
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.Web.Infrastructure.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\System.Web.Helpers.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\System.Web.Mvc.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\System.Web.Razor.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\System.Web.Webpages.Deployment.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\System.Web.Webpages.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\System.Web.Webpages.Razor.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\System.Web.Razor.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\System.Web.Webpages.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\System.Web.Webpages.Deployment.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\System.Web.Webpages.Razor.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\System.Web.Helpers.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\System.Web.Mvc.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\ru\System.Web.Razor.resources.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\ru\System.Web.Webpages.resources.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\ru\System.Web.Webpages.Deployment.resources.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\ru\System.Web.Webpages.Razor.resources.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\ru\System.Web.Helpers.resources.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\ru\System.Web.Mvc.resources.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\obj\Debug\MVC.csprojResolveAssemblyReference.cache
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\obj\Debug\MVC.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\obj\Debug\MVC.pdb
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\EntityFramework.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\EntityFramework.SqlServer.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.AspNet.Identity.Core.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.AspNet.Identity.EntityFramework.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.AspNet.Identity.Owin.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.Owin.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.Owin.Host.SystemWeb.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.Owin.Security.Cookies.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.Owin.Security.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.Owin.Security.OAuth.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Newtonsoft.Json.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Owin.dll
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\EntityFramework.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\EntityFramework.SqlServer.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.AspNet.Identity.Core.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.AspNet.Identity.EntityFramework.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.AspNet.Identity.Owin.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.Owin.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.Owin.Host.SystemWeb.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.Owin.Security.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.Owin.Security.Cookies.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Microsoft.Owin.Security.OAuth.xml
-c:\users\роман\documents\visual studio 2017\Projects\MVC\MVC\bin\Newtonsoft.Json.xml
-C:\Users\Роман\Desktop\MVC\MVC\obj\Debug\MVC.dll
-C:\Users\Роман\Desktop\MVC\MVC\obj\Debug\MVC.pdb
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\obj\Debug\MVC.csprojResolveAssemblyReference.cache
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\csc.exe
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\csc.exe.config
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\csc.rsp
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\csi.exe
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\csi.rsp
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\System.AppContext.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\vbc.exe
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\vbc.exe.config
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\vbc.rsp
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\VBCSCompiler.exe
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\MVC.dll.config
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\MVC.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\MVC.pdb
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\EntityFramework.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\EntityFramework.SqlServer.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.Owin.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.Owin.Security.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Newtonsoft.Json.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Owin.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Helpers.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Mvc.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Razor.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Webpages.Deployment.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Webpages.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Webpages.Razor.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\EntityFramework.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\EntityFramework.SqlServer.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.Owin.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.Owin.Security.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Newtonsoft.Json.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Razor.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Webpages.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Webpages.Deployment.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Webpages.Razor.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Helpers.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Mvc.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\ru\System.Web.Razor.resources.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\ru\System.Web.Webpages.resources.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\ru\System.Web.Webpages.Deployment.resources.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\ru\System.Web.Webpages.Razor.resources.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\ru\System.Web.Helpers.resources.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\ru\System.Web.Mvc.resources.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\obj\Debug\MVC.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\obj\Debug\MVC.pdb

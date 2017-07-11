@@ -142,9 +142,19 @@ namespace MVC.Controllers
 
                 if (validEmail.Succeeded && validPass.Succeeded && captchaValid)
                 {
-                    IdentityResult result = UserManager.Update(user);
+                    IdentityResult result = UserManager.Create(user,details.Password);
                     if (result.Succeeded)
                     {
+                        ClaimsIdentity ident = UserManager.CreateIdentity(user,
+                       DefaultAuthenticationTypes.ApplicationCookie);
+
+                        AuthManager.SignIn(new AuthenticationProperties
+                        {
+                            IsPersistent = false
+                        }, ident);
+                        
+                        TempData["email"] = user.Email;
+
                         return RedirectToAction("Wall");
                     }
                     else
