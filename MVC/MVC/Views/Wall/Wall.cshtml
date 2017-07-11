@@ -1,0 +1,50 @@
+﻿@model MVC.Models.AppUser
+@{
+    ViewBag.Title = "Wall";
+}
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active">@Html.ActionLink("Wall", "Wall", "Wall")</li>
+                <li>@Html.ActionLink("Messages", "Messages", "Wall")</li>
+                <li>@Html.ActionLink("Subscribers", "Subscribers", "Wall")</li>
+                <li>@Html.ActionLink("Settings", "Settings", "Wall")</li>
+                @if (@Model.Admin)
+                {
+                    <li class="social pull-right">@Html.ActionLink("Administer", "Index", "Admin")</li>
+                }
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="social pull-right">@Html.ActionLink(@Model.Email + ",  Log Out", "Click", "Wall")</li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div style="margin-top:10%">
+    <table>
+        <tr>
+            <td>
+                <img  style="border:groove; margin-left:30%; width:100%; height:auto;" src="http://www.wellcomeimageawards.org/jpegs/58956/B0010980_main.jpg" />
+            </td>
+            
+        </tr>
+        <tr>
+            <td>
+                <!--<center>Html.Action("Avatar")</center>-->
+            </td>
+        </tr>
+    </table>
+</div>

@@ -13,14 +13,12 @@ namespace MVC.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private AppUser currentUser = new AppUser();
-
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Wall");
+                return RedirectToAction("Wall","Wall");
             }
 
             ViewBag.returnUrl = returnUrl;
@@ -65,38 +63,11 @@ namespace MVC.Controllers
                     }, ident);
 
                     if (returnUrl != "") return Redirect(returnUrl);
-
-                    TempData["email"] = user.Email;
-
-                    return RedirectToAction("Wall");
+                    
+                    return RedirectToAction("Wall", "Wall");
                 }
             }
             return View(details);
-        }
-
-        //выход
-        [Authorize]
-        public ActionResult Click()
-        {
-            AuthManager.SignOut();
-            return View("Login");
-        }
-
-
-        [Authorize]
-        public ActionResult Wall()
-        {
-            if (TempData.ContainsKey("email"))
-            {
-                currentUser.Email = TempData["email"] + "";
-                currentUser = UserManager.FindByEmail(currentUser.Email);
-            }
-            else
-            {
-                string id = User.Identity.GetUserId();
-                currentUser = UserManager.FindById(id);
-            }
-            return View(currentUser);
         }
 
         [AllowAnonymous]
@@ -153,9 +124,7 @@ namespace MVC.Controllers
                             IsPersistent = false
                         }, ident);
                         
-                        TempData["email"] = user.Email;
-
-                        return RedirectToAction("Wall");
+                        return RedirectToAction("Wall", "Wall");
                     }
                     else
                     {

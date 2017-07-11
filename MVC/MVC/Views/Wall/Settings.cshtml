@@ -1,0 +1,41 @@
+﻿@model MVC.Models.AppUser
+@{
+    ViewBag.Title = "Settings";
+}
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Wall", "Wall", "Wall")</li>
+                <li>@Html.ActionLink("Messages", "Messages", "Wall")</li>
+                <li>@Html.ActionLink("Subscribers", "Subscribers", "Wall")</li>
+                <li class="active">@Html.ActionLink("Settings", "Settings", "Wall")</li>
+                @if (@Model.Admin)
+                {
+                    <li class="social pull-right">@Html.ActionLink("Administer", "Index", "Admin")</li>
+                }
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="social pull-right">@Html.ActionLink(@Model.Email + ",  Log Out", "Click", "Wall")</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div style="margin-top:10%">
+    <center>
+        @using (Html.BeginForm())
+        {
+            
+        }
+    </center>
+</div>

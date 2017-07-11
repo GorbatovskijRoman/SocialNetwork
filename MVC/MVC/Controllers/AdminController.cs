@@ -11,7 +11,7 @@ namespace MVC.Controllers
     
     public class AdminController : Controller
     {
-        [Authorize]
+        [Authorize(Roles ="Administrators")]
         public ActionResult Index()
         {
             return View(UserManager.Users);
@@ -25,12 +25,13 @@ namespace MVC.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrators")]
         public ActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Administrators")]
         public async Task<ActionResult> Edit(string id)
         {
             AppUser user = await UserManager.FindByIdAsync(id);
@@ -44,7 +45,7 @@ namespace MVC.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         public async Task<ActionResult> Edit(string id, string email, string password, string sex)
         {
@@ -89,6 +90,7 @@ namespace MVC.Controllers
             return View(user);
         }
 
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         public async Task<ActionResult> Delete(string id)
         {
@@ -112,14 +114,15 @@ namespace MVC.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
-        public async Task<ActionResult> Create(CreateModel model)
+        public async Task<ActionResult> Create(AppUser model)
         {
             if (ModelState.IsValid)
             {
-                AppUser user = new AppUser { UserName = model.Name, Email = model.Email };
+                AppUser user = new AppUser { UserName = model.UserName, Email = model.Email };
                 IdentityResult result =
-                    await UserManager.CreateAsync(user, model.Password);
+                    await UserManager.CreateAsync(user, model.PasswordHash);
 
                 if (result.Succeeded)
                 {

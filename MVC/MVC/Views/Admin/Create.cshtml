@@ -1,4 +1,4 @@
-﻿@model MVC.Models.CreateModel
+﻿@model MVC.Models.AppUser
 
 @{
     ViewBag.Title = "Создание пользователя";
@@ -9,7 +9,7 @@
 {
     <div class="form-group" min-width="50px">
         <label>Имя</label>
-        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+        @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
     </div>
     <div class="form-group">
         <label>Email</label>
@@ -18,9 +18,8 @@
 
     <div class="form-group">
         <label>Пароль</label>
-        @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+        @Html.PasswordFor(x => x.PasswordHash, new { @class = "form-control" })
     </div>
-
     <button type="submit" class="btn btn-primary">Создать</button>
 
     @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-default" })

@@ -35,11 +35,13 @@ namespace MVC.Controllers
             return View(RoleManager.Roles);
         }
 
+        [Authorize(Roles = "Administrators")]
         public ActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         public async Task<ActionResult> Create([Required]string name)
         {
@@ -60,6 +62,7 @@ namespace MVC.Controllers
             return View(name);
         }
 
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         public async Task<ActionResult> Delete(string id)
         {
@@ -89,6 +92,8 @@ namespace MVC.Controllers
                 ModelState.AddModelError("", error);
             }
         }
+
+        [Authorize(Roles = "Administrators")]
         public async Task<ActionResult> Edit(string id)
         {
             AppRole role = await RoleManager.FindByIdAsync(id);
@@ -107,6 +112,7 @@ namespace MVC.Controllers
             });
         }
 
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         public async Task<ActionResult> Edit(RoleModificationModel model)
         {
