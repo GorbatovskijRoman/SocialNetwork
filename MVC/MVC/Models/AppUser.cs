@@ -1,15 +1,15 @@
 ﻿using System;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+
 namespace MVC.Models
 {
     public class AppUser : IdentityUser
     { 
         public string NewPass { get; set; }
 
-        public string[] BlockUser { get; set; }
-
-        public string[] Subscribers { get; set; }
+        public string OldPass { get; set; }
 
         public byte[] Avatar { get; set; }
 

@@ -26,8 +26,13 @@
                 }
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                
-                <li class="social pull-right">@Html.ActionLink(@Model.Email + ",  Log Out", "Click", "Wall")</li>
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> @Model.Email</a></li>
+                <li>
+                    <a href="@Url.Action("Click", "Wall")">
+                        LogOut
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

@@ -1,5 +1,10 @@
-﻿@model MVC.Models.AppUser
-    @{
+﻿@*@model PagedList.IPagedList<string>*@
+@using PagedList.Mvc;
+@using MVC.Models;
+@using MVC.Infrastructure;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
     ViewBag.Title = "Subscribers";
 }
 
@@ -20,14 +25,49 @@
                 <li>@Html.ActionLink("Messages", "Messages", "Wall")</li>
                 <li class="active">@Html.ActionLink("Subscribers", "Subscribers", "Wall")</li>
                 <li>@Html.ActionLink("Settings", "Settings", "Wall")</li>
-                @if (@Model.Admin)
+                @if (@ViewBag.CurrentUser.Admin)
                 {
                     <li class="social pull-right">@Html.ActionLink("Administer", "Index", "Admin")</li>
                 }
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="social pull-right">@Html.ActionLink(@Model.Email + ",  Log Out", "Click", "Wall")</li>
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> @ViewBag.CurrentUser.Email</a></li>
+                <li>
+                    <a href="@Url.Action("Click", "Wall")">
+                        LogOut
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
 </div>
+
+
+@*<div style="margin-top:10%;" class="panel panel-primary">
+    <div class="panel-heading">Subscribers</div>
+    <table class="table table-striped">
+        <tr>
+            <th style="min-width: 100px">Id</th>
+            <th>Name</th>
+            <th style="min-width: 150px"></th>
+        </tr>
+        @foreach (string item in Model)
+            {
+            <tr>
+                <td>@item</td>
+                <td>@Html.GetUserName(item)</td>
+                <td>
+                    @using (Html.BeginForm("UnSubscribe", "Wall", new { id = item }))
+                    {
+                        <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))*@

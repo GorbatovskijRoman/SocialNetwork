@@ -74,3 +74,7 @@ C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\ru\System.Web.Helpers.re
 C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\ru\System.Web.Mvc.resources.dll
 C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\obj\Debug\MVC.dll
 C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\obj\Debug\MVC.pdb
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\PagedList.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\PagedList.Mvc.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\PagedList.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\PagedList.Mvc.xml

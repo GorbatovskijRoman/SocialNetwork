@@ -14,8 +14,6 @@ namespace MVC.Models
 
         [Required]
         public string Password { get; set; }
-
-
     }
 
     public class RoleEditModel
@@ -32,4 +30,17 @@ namespace MVC.Models
         public string[] IdsToAdd { get; set; }
         public string[] IdsToDelete { get; set; }
     }
+
+    public class SubscribesViewModel
+    {
+        public string AccountOwnerId { get; set; }
+        public string SubscriberId { get; set; }
+    }
+
+    public class BlackListViewModel
+    {
+        public string AccountOwnerId { get; set; }
+        public string BlockedId { get; set; }
+    }
+
 }

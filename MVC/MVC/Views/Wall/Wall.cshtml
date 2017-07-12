@@ -20,31 +20,24 @@
                 <li>@Html.ActionLink("Messages", "Messages", "Wall")</li>
                 <li>@Html.ActionLink("Subscribers", "Subscribers", "Wall")</li>
                 <li>@Html.ActionLink("Settings", "Settings", "Wall")</li>
-                @if (@Model.Admin)
+                @if (@Model != null)
                 {
-                    <li class="social pull-right">@Html.ActionLink("Administer", "Index", "Admin")</li>
+                    if (Model.Admin)
+                    {
+                        <li class="social pull-right">@Html.ActionLink("Administer", "Index", "Admin")</li>
+                    }
                 }
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="social pull-right">@Html.ActionLink(@Model.Email + ",  Log Out", "Click", "Wall")</li>
-
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> @Model.Email</a></li>
+                <li>
+                    <a href="@Url.Action("Click", "Wall")">
+                        LogOut
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
 </div>
 
-<div style="margin-top:10%">
-    <table>
-        <tr>
-            <td>
-                <img  style="border:groove; margin-left:30%; width:100%; height:auto;" src="http://www.wellcomeimageawards.org/jpegs/58956/B0010980_main.jpg" />
-            </td>
-            
-        </tr>
-        <tr>
-            <td>
-                <!--<center>Html.Action("Avatar")</center>-->
-            </td>
-        </tr>
-    </table>
-</div>

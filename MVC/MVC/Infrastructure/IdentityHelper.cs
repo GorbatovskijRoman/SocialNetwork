@@ -6,7 +6,7 @@ namespace MVC.Infrastructure
 {
     public static class IdentityHelpers
     {
-        public static MvcHtmlString GetUserName( string id)
+        public static MvcHtmlString GetUserName(this HtmlHelper html, string id)
         {
             AppUserManager mgr = HttpContext.Current
                 .GetOwinContext().GetUserManager<AppUserManager>();
