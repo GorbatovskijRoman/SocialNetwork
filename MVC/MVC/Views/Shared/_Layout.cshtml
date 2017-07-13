@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    @using MVC.Models
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
@@ -8,7 +9,51 @@
 </head>
 <body class="container">
     <div class="container">
-        @RenderBody()
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Wall", "Wall", "Wall")</li>
+                        @if (Model is AppUser)
+                        {
+                            <li>@Html.ActionLink("Messages", "Messages", "Wall")</li>
+                            <li>@Html.ActionLink("Subscribers", "Subscribers", "Wall")</li>
+                            <li>@Html.ActionLink("Settings", "Settings", "Wall")</li>
+
+                            if (Model.Admin)
+                            {
+                                <li>@Html.ActionLink("Administer", "Index", "Admin")</li>
+                                <li>@Html.ActionLink("Roles", "Index", "RoleAdmin")</li>
+                            }
+                        }
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (Model is AppUser)
+                        {
+                            <li><a href="#"><span class="glyphicon glyphicon-user"></span> @Model.Email</a></li>
+                            <li>
+                                <a href="@Url.Action("Click", "Wall")">
+                                    LogOut
+                                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top:5%">
+            @RenderBody()
+        </div>
     </div>
     <style>
         .container {

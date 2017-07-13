@@ -31,16 +31,24 @@ namespace MVC.Models
         public string[] IdsToDelete { get; set; }
     }
 
-    public class SubscribesViewModel
+    public class Subscribe
     {
-        public string AccountOwnerId { get; set; }
-        public string SubscriberId { get; set; }
+        [Required]
+        public int SubscribeId { get; set; }
+        [Required]
+        public string OwnerId { get; set; }
+        [Required]
+        public virtual AppUser AppUsers { get; set; }
     }
 
-    public class BlackListViewModel
+    public class Block
     {
-        public string AccountOwnerId { get; set; }
-        public string BlockedId { get; set; }
+        [Required]
+        public int BlockId { get; set; }
+        [Required]
+        public string OwnerId { get; set; }
+        [Required]
+        public virtual AppUser AppUsers { get; set; }
     }
 
 }

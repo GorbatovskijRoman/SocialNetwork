@@ -1,115 +1,30 @@
-﻿@using MVC.Infrastructure
-@model MVC.Models.AppUser
+﻿@model MVC.Models.AppUser
 @{
     ViewBag.Title = "Settings";
 }
 
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Wall", "Wall", "Wall")</li>
-                <li>@Html.ActionLink("Messages", "Messages", "Wall")</li>
-                <li>@Html.ActionLink("Subscribers", "Subscribers", "Wall")</li>
-                <li class="active">@Html.ActionLink("Settings", "Settings", "Wall")</li>
-                @if (@Model.Admin)
-                {
-                    <li class="social pull-right">@Html.ActionLink("Administer", "Index", "Admin")</li>
+<script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+
+<center>
+    <div class="btn-group">
+        <ul style="margin-top:5%" class=" nav nav-pills">
+            <li>
+                @using (Ajax.BeginForm("ChangeUserPartial", new AjaxOptions { UpdateTargetId = "results" }))
+            {
+                    <input type="submit" value="Settings " class="btn">
                 }
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> @Model.Email</a></li>
-                <li>
-                    <a href="@Url.Action("Click", "Wall")">
-                        LogOut
-                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+            </li>
+            <li>
+                @using (Ajax.BeginForm("BlackListPartial", new AjaxOptions { UpdateTargetId = "results" }))
+            {
+                    <input type="submit" value="Black List" class="btn">
+                }
+            </li>
+        </ul>
     </div>
-</div>
 
-<table style="margin-top:10%;" class="table table-striped">
-    <tr>
-        @using (Html.BeginForm("Update", "Wall", new { id = Model.Id }))
-        {
-            @Html.ValidationSummary()
-            <td style="width:30%">
-                <div style="width:300px;" class="form-group">
-                    <label>Name</label>
-                    @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
-
-                </div>
-                <div style="width:300px" class="form-group">
-                    <label>OldPass</label>
-                    @Html.PasswordFor(x => x.OldPass, new { @class = "form-control" })
-
-                </div>
-                <div style="width:300px" class="form-group">
-                    <label>NewPass</label>
-                    @Html.PasswordFor(x => x.NewPass, new { @class = "form-control" })
-
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary" type="submit">Update</button>
-                </div>
-                <div style="width:300px" class="form-group">
-                    <font color="red">
-                        <ul style="list-style-type: none;">
-                            <li>  @Html.ValidationMessage("name")</li>
-                            <li>  @Html.ValidationMessage("old")</li>
-                            <li>  @Html.ValidationMessage("new")</li>
-                            <li>  @Html.ValidationMessage("update")</li>
-                            <li>  @Html.ValidationMessage("all")</li>
-                        </ul>
-                    </font>
-                </div>
-
-            </td>
-        }
-        <td style="width:70%">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Black List</div>
-                <table class="table table-striped">
-                    <tr>
-                        <th style="min-width: 100px">Id</th>
-                        <th>Name</th>
-                        <th style="min-width: 150px"></th>
-                    </tr>
-                    @*if (Model.BlockUser == null)
-                    {
-                        <tr>
-                            <td colspan="4" class="text-center">Black List is empty</td>
-                        </tr>
-                    }
-                    else
-                    {
-                        foreach (string userID in Model.BlockUser)
-                        {
-                            <tr>
-                                <td>@userID</td>
-                                <td>@Html.GetUserName(userID)</td>
-                                <td>
-                                    @using (Html.BeginForm("UnBlock", "Wall", new { id = userID }))
-                                    {
-                                        <button class="btn btn-danger btn-xs" type="submit">Delete</button>
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    }*@
-                </table>
-            </div>
-        </td>
-    </tr>
-</table>
+    <div id="results" style="margin-top:2%">
+        @Html.Partial("ChangeUserPartial")
+    </div>
+</center>

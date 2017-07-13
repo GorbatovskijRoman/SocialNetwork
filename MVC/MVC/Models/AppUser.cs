@@ -14,5 +14,9 @@ namespace MVC.Models
         public byte[] Avatar { get; set; }
 
         public bool Admin { get; set; }
+
+        public virtual List<Subscribe> Subscribes { get; set; }
+
+        public virtual List<Block> Blocks { get; set; }
     }
 }

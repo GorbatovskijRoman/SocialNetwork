@@ -150,6 +150,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +197,8 @@
     <Content Include="Views\Wall\Messages.cshtml" />
     <Content Include="Views\Wall\Subscribers.cshtml" />
     <Content Include="Views\Wall\Settings.cshtml" />
+    <Content Include="Views\Wall\BlackListPartial.cshtml" />
+    <Content Include="Views\Wall\ChangeUserPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

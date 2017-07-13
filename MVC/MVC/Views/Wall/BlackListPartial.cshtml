@@ -1,0 +1,35 @@
+﻿@using MVC.Infrastructure
+@model  List<string>
+    <div class="panel panel-primary">
+    <div class="panel-heading">Black List</div>
+    <table class="table table-striped">
+        <tr>
+            <th style="min-width: 100px">Id</th>
+            <th>Name</th>
+            <th style="min-width: 150px"></th>
+        </tr>
+        @if (Model.Count()==0)
+        {
+            <tr>
+                <td colspan="4" class="text-center">Black List is empty</td>
+            </tr>
+        }
+        else
+        {
+            foreach (string user in Model)
+            {
+                <tr>
+                    <td>@user</td>
+                    <td>@Html.GetUserName(user)</td>
+                    <td>
+                        @using (Html.BeginForm("UnBlock", "Wall", new { id = user }))
+                        {
+                            <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+

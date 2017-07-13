@@ -13,10 +13,27 @@ namespace MVC.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private IAuthenticationManager AuthManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
+        private AppUserManager UserManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
+            }
+        }
+
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            if (HttpContext.User.Identity.IsAuthenticated)
+            
+            if (HttpContext.User.Identity.IsAuthenticated )
             {
                 return RedirectToAction("Wall","Wall");
             }
@@ -118,6 +135,8 @@ namespace MVC.Controllers
                     {
                         ClaimsIdentity ident = UserManager.CreateIdentity(user,
                        DefaultAuthenticationTypes.ApplicationCookie);
+                        
+                            UserManager.AddToRole(user.Id, "Users");
 
                         AuthManager.SignIn(new AuthenticationProperties
                         {
@@ -138,20 +157,6 @@ namespace MVC.Controllers
             return View(details);
         }
 
-        private IAuthenticationManager AuthManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
-
-        private AppUserManager UserManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
-            }
-        }
+       
     }
 }

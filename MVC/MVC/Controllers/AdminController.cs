@@ -126,6 +126,7 @@ namespace MVC.Controllers
 
                 if (result.Succeeded)
                 {
+                    UserManager.AddToRole(user.Id, "Users");
                     return RedirectToAction("Index");
                 }
                 else
