@@ -12,9 +12,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Data.Entity;
 using System.IO;
+using MVC.Filters;
 
 namespace MVC.Controllers
 {
+    [Authorize]
     public class WallController : Controller
     {
         private IAuthenticationManager AuthManager
@@ -36,30 +38,28 @@ namespace MVC.Controllers
         AppUser currentUser = new AppUser();
         AppSocialNetworkBDContext context = new AppSocialNetworkBDContext();
 
-        [Authorize]
+        [BlockUsers]
         public async Task<ActionResult> Wall()
         {
             string id = User.Identity.GetUserId();
             currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             return View(currentUser);
         }
-
-        [Authorize]
+        
         public ActionResult Click()
         {
             AuthManager.SignOut();
             return RedirectToAction("Login", "Account");
         }
 
-        [Authorize]
+        [BlockUsers]
         public async Task<ActionResult> Messages()
         {
             string id = User.Identity.GetUserId();
             currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             return View(currentUser);
         }
-
-        [Authorize]
+        [BlockUsers]
         public async Task<ActionResult> Subscribers(int page=1)
         {
             int pageSize = 10;
@@ -69,15 +69,14 @@ namespace MVC.Controllers
             ViewBag.subscribers = subscribersBD.ToPagedList(page, pageSize);
             return View(currentUser);
         }
-
-        [Authorize]
+        [BlockUsers]
         public async Task<ActionResult> Settings()
         {
             string id = User.Identity.GetUserId();
             currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             return View(currentUser);
         }
-
+        [BlockUsers]
         [HttpPost]
         public async Task<ActionResult> ChangeUserPartial()
         {
@@ -85,7 +84,7 @@ namespace MVC.Controllers
             currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             return PartialView(currentUser);
         }
-        
+        [BlockUsers]
         [HttpPost]
         public async Task<ActionResult> BlackListPartial()
         {
@@ -94,6 +93,7 @@ namespace MVC.Controllers
             return PartialView(blocks);
         }
 
+        [BlockUsers]
         [HttpPost]
         public async Task<ActionResult> AvatarPartial()
         {
@@ -112,7 +112,7 @@ namespace MVC.Controllers
             }
         }
 
-        [Authorize]
+        [BlockUsers]
         [HttpPost]
         public async Task<ActionResult> Update(AppUser user)
         {
@@ -176,7 +176,7 @@ namespace MVC.Controllers
             return RedirectToAction("Settings");
         }
 
-        [Authorize]
+        [BlockUsers]
         [HttpPost]
         public async Task<ActionResult> UnBlock(AppUser user)
         {
@@ -190,7 +190,7 @@ namespace MVC.Controllers
             return RedirectToAction("Settings");
         }
 
-        [Authorize]
+        [BlockUsers]
         [HttpPost]
         public async Task<ActionResult> UnSubscribe(string SubscriberId, int pageNum = 1)
         {
@@ -204,7 +204,7 @@ namespace MVC.Controllers
             return RedirectToAction("Subscribers", new { page= pageNum});
         }
 
-        [Authorize]
+        [BlockUsers]
         public ActionResult Random()
         {
 
@@ -229,7 +229,7 @@ namespace MVC.Controllers
             return RedirectToAction("Wall");
         }
 
-        [Authorize]
+        [BlockUsers]
         public async Task<ActionResult> UpdateAvatar(HttpPostedFileBase file)
         {
             if (file!=null)

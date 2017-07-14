@@ -1,8 +1,8 @@
 ﻿@model MVC.Models.LoginViewModel
 @{
-    ViewBag.Title = "Авторизация на сайте";
+    ViewBag.Title = "Login";
 }
-@Html.ValidationSummary()
+
 <div class="row" style="margin-top:10%;">
     <div class="col-md-offset-4 col-md-4">
         <div class="panel panel-default">
@@ -12,13 +12,13 @@
                     @Html.AntiForgeryToken();
                     <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
                     <center>
-                        <div class="form-group" style="margin-top:10%; width:350px; ">
+                        <div class="form-group">
                             <br />
                             <label>E-mail</label>
                             @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @style = "width:300px" })
-                            <label>Имя</label>
+                            <label>Name</label>
                             @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @style = "width:300px" })
-                            <label>Пароль</label>
+                            <label>Password</label>
                             @Html.PasswordFor(x => x.Password, new { @class = "form-control", @style = "width:300px" })
                             <br />
                             <div class="editor-field">
@@ -26,13 +26,12 @@
                             </div>
                             <br />
                             <div>
-                                <button class="btn btn-primary" style="width:100px" type="submit">Войти</button>
-                                @Html.ActionLink("Зарегистрироваться", "Registrate", null, new { @class = "btn btn-success", @style ="margin-left:10px" })
-
+                                <button class="btn btn-primary" style="width:100px" type="submit">Login</button>
+                                @Html.ActionLink("Go to Registration", "Registrate", null, new { @class = "btn btn-success", @style="margin-left:10px; width: 180px" })
                             </div>
                         </div>
-                    </center>
-                }
+                    </center> }
+                @Html.ValidationSummary()
             </div>
         </div>
     </div>

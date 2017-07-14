@@ -6,6 +6,10 @@
 
         <img src="@imgSrc" style=" width: auto; height: 500px;" id="output"/>
     }
+    else
+    {
+        <img style=" width: auto; height: 500px;" id="output" />
+    }
 </div>
 <div style="margin-top:1%">
     @using (Html.BeginForm("UpdateAvatar", "Wall", null, FormMethod.Post, new { enctype = "multipart/form-data" }))

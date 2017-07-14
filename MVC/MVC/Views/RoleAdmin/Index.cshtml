@@ -3,15 +3,14 @@
 @model IEnumerable<AppRole>
 
 @{
-    ViewBag.Title = "Роли";
+    ViewBag.Title = "Roles";
 }
 
 <div class="panel panel-primary">
-    <div class="panel-heading">Roles</div>
     <table class="table table-striped">
         <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>Role</th>
             <th>Members</th>
             <th style="min-width: 150px"></th>
         </tr>
@@ -41,16 +40,10 @@
                         }
                     </td>
                     <td>
-                        @using (Html.BeginForm("Delete", "RoleAdmin", new { id = role.Id }))
-                        {
-                            @Html.ActionLink("Edit", "Edit", new { id = role.Id },
-                        new { @class = "btn btn-primary btn-xs", style = "float:left; margin-right:5px" })
-                            <button class="btn btn-danger btn-xs" type="submit">Delete</button>
-                        }
+                            @Html.ActionLink("Edit", "Edit", new { id = role.Id }, new { @class="btn btn-warning"})
                     </td>
                 </tr>
             }
         }
     </table>
 </div>
-@Html.ActionLink("Create", "Create", null, new { @class = "btn btn-primary" })

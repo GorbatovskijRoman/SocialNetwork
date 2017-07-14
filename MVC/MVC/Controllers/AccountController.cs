@@ -10,7 +10,7 @@ using System.Web;
 
 namespace MVC.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         private IAuthenticationManager AuthManager
@@ -28,11 +28,9 @@ namespace MVC.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
             }
         }
-
-        [AllowAnonymous]
+        
         public ActionResult Login(string returnUrl)
         {
-            
             if (HttpContext.User.Identity.IsAuthenticated )
             {
                 return RedirectToAction("Wall","Wall");
@@ -43,7 +41,6 @@ namespace MVC.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel details, bool captchaValid, string returnUrl)
         {
@@ -86,77 +83,80 @@ namespace MVC.Controllers
             }
             return View(details);
         }
-
-        [AllowAnonymous]
+        
         public ActionResult Registrate()
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Wall", "Wall");
+            }
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<ActionResult> Registrate(LoginViewModel details, bool captchaValid)
         {
             AppUser user = new AppUser { UserName = details.Name, Email = details.Email };
             if (user != null)
             {
-                user.Email = details.Email;
-                IdentityResult validEmail = await UserManager.UserValidator.ValidateAsync(user);
-                IdentityResult validPass = await UserManager.PasswordValidator.ValidateAsync(details.Password);
-                
-                if (!validEmail.Succeeded)
+                if (details.Password != null)
                 {
-                    foreach (string error in validEmail.Errors)
-                    {
-                        ModelState.AddModelError("", error);
-                    }
-                }
+                    user.Email = details.Email;
+                    IdentityResult validEmail = await UserManager.UserValidator.ValidateAsync(user);
+                    IdentityResult validPass = await UserManager.PasswordValidator.ValidateAsync(details.Password);
 
-                if (validPass.Succeeded)
-                {
-                    user.PasswordHash = UserManager.PasswordHasher.HashPassword(details.Password);
-                }
-                else
-                {
-                    foreach (string error in validPass.Errors)
+                    if (!validEmail.Succeeded)
                     {
-                        ModelState.AddModelError("", error);
-                    }
-                }
-                if(!captchaValid)
-                {
-                      ModelState.AddModelError("", "Неверная капча");
-                }
-
-                if (validEmail.Succeeded && validPass.Succeeded && captchaValid)
-                {
-                    IdentityResult result = UserManager.Create(user,details.Password);
-                    if (result.Succeeded)
-                    {
-                        ClaimsIdentity ident = UserManager.CreateIdentity(user,
-                       DefaultAuthenticationTypes.ApplicationCookie);
-                        
-                            UserManager.AddToRole(user.Id, "Users");
-
-                        AuthManager.SignIn(new AuthenticationProperties
+                        foreach (string error in validEmail.Errors)
                         {
-                            IsPersistent = false
-                        }, ident);
-                        
-                        return RedirectToAction("Wall", "Wall");
+                            ModelState.AddModelError("", error);
+                        }
+                    }
+
+                    if (validPass.Succeeded)
+                    {
+                        user.PasswordHash = UserManager.PasswordHasher.HashPassword(details.Password);
                     }
                     else
                     {
-                        foreach (string error in result.Errors)
+                        foreach (string error in validPass.Errors)
                         {
                             ModelState.AddModelError("", error);
+                        }
+                    }
+                    if (!captchaValid)
+                    {
+                        ModelState.AddModelError("", "Неверная капча");
+                    }
+
+                    if (validEmail.Succeeded && validPass.Succeeded && captchaValid)
+                    {
+                        IdentityResult result = UserManager.Create(user, details.Password);
+                        if (result.Succeeded)
+                        {
+                            ClaimsIdentity ident = UserManager.CreateIdentity(user,
+                           DefaultAuthenticationTypes.ApplicationCookie);
+
+                            UserManager.AddToRole(user.Id, "Users");
+
+                            AuthManager.SignIn(new AuthenticationProperties
+                            {
+                                IsPersistent = false
+                            }, ident);
+
+                            return RedirectToAction("Wall", "Wall");
+                        }
+                        else
+                        {
+                            foreach (string error in result.Errors)
+                            {
+                                ModelState.AddModelError("", error);
+                            }
                         }
                     }
                 }
             }
             return View(details);
         }
-
-       
     }
 }
