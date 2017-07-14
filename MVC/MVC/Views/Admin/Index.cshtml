@@ -7,19 +7,19 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        Учетные записи
+        Accounts
     </div>
     <table class="table table-striped">
         <tr>
             <th>Id</th>
-            <th>Имя</th>
+            <th>Name</th>
             <th>Email</th>
             <th>Action</th>
         </tr>
         @if (Model.Count() == 0)
         {
             <tr>
-                <td colspan="5" class="text-center">Нет ни одной учетной записи</td>
+                <td colspan="5" class="text-center">No account</td>
             </tr>
         }
         else
@@ -33,9 +33,9 @@
                     <td>
                         @using (Html.BeginForm("Delete", "Admin", new { id = user.Id }))
                         {
-                            @Html.ActionLink("Изменить", "Edit", new { id = user.Id },
+                            @Html.ActionLink("Edit", "Edit", new { id = user.Id },
                             new { @class = "btn btn-primary btn-xs", style = "float: left; margin-right: 10px" })
-                            <button class="btn btn-danger btn-xs" type="submit">Удалить</button>
+                            <button class="btn btn-danger btn-xs" type="submit">Delete</button>
                         }
                     </td>
                 </tr>
@@ -43,4 +43,4 @@
         }
     </table>
 </div>
-@Html.ActionLink("Создать", "Create", null, new { @class = "btn btn-primary" })
+@Html.ActionLink("Create", "Create", null, new { @class = "btn btn-primary" })

@@ -1,16 +1,16 @@
 ﻿@model string
 @{
-    ViewBag.Title = "Создание роли";
+    ViewBag.Title = "Create role";
 }
 
-<h2>Создать роль</h2>
+<h2>Create role</h2>
 @Html.ValidationSummary(false)
 @using (Html.BeginForm())
 {
     <div class="form-group">
-        <label>Название</label>
+        <label>Name</label>
         <input name="name" value="@Model" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary">Создать</button>
-    @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-default" })
+    <button type="submit" class="btn btn-primary">Create</button>
+    @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
 }

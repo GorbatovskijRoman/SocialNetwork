@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using MVC.Infrastructure;
 using MVC.Models;
 using System.Linq;
+using System.Data.Entity;
 using System.Collections.Generic;
 
 namespace MVC.Controllers

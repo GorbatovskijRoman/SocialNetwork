@@ -2,7 +2,6 @@
 
     @using (Html.BeginForm("Update", "Wall", new { id = Model.Id }))
     {   
-        <td style="width:30%">
             <div style="width:300px;" class="form-group">
                 <label>Name</label>
                 @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
@@ -32,5 +31,4 @@
                     </ul>
                 </font>
             </div>
-        </td>
     }

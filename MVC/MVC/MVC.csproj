@@ -180,13 +180,11 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
-    <Content Include="Views\Account\Error.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Registrate.cshtml" />
     <Content Include="Views\Wall\Wall.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
-    <Content Include="Views\Admin\Error.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\RoleAdmin\Create.cshtml" />
     <Content Include="Views\RoleAdmin\Edit.cshtml" />
@@ -199,6 +197,7 @@
     <Content Include="Views\Wall\Settings.cshtml" />
     <Content Include="Views\Wall\BlackListPartial.cshtml" />
     <Content Include="Views\Wall\ChangeUserPartial.cshtml" />
+    <Content Include="Views\Wall\AvatarPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

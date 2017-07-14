@@ -1,0 +1,27 @@
+﻿<div>
+    @if (ViewBag.imageArray != null)
+    {
+        var base64 = Convert.ToBase64String(ViewBag.imageArray);
+        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+        <img src="@imgSrc" style=" width: auto; height: 500px;" id="output"/>
+    }
+</div>
+<div style="margin-top:1%">
+    @using (Html.BeginForm("UpdateAvatar", "Wall", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <label class="btn btn-default btn-file">
+            Open <input type="file" name="file" style="display: none;" accept="image/*" onchange="loadFile(event)">
+        </label>
+        <label class="btn btn-success">
+            Save <input type="submit" style="display: none;">
+        </label>
+    }
+</div>
+<script>
+    var loadFile = function (event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>

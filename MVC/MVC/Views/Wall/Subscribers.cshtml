@@ -8,8 +8,7 @@
     ViewBag.Title = "Subscribers";
 }
 
-<div style="margin-top:5%;" class="panel panel-primary">
-    <div class="panel-heading">Subscribers</div>
+<div style="margin-top:5%;" class="panel panel-default">
     <table class="table table-striped table-hover">
         <tr>
             <th style="min-width: 100px">Id</th>
@@ -22,7 +21,7 @@
                 <td>@item</td>
                 <td>@Html.GetUserName(item)</td>
                 <td>
-                    @using (Html.BeginForm("UnSubscribe", "Wall", new { BlockId = item,
+                    @using (Html.BeginForm("UnSubscribe", "Wall", new { SubscriberId = item,
                         pageNum = (int)(ViewBag.subscribers.PageCount < ViewBag.subscribers.PageNumber ? 0 : ViewBag.subscribers.PageNumber)
                     }))
                     {

@@ -1,12 +1,39 @@
 ﻿@model MVC.Models.AppUser
 @{
     ViewBag.Title = "Wall";
+    string imgSrc = null;
+    if (Model.Avatar != null)
+    {
+        var base64 = Convert.ToBase64String(Model.Avatar);
+        imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+    }
 }
 
-
-<div style="margin-top:10%">
+<div style="margin-top:5%">
     <a href="@Url.Action("Random", "Wall")">
         Random
         <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
     </a>
 </div>
+
+<table class="table">
+    <tr>
+        <td style="width:30%;">
+            <center><img src="@imgSrc" style=" width:300px; height: auto; max-height:500px" /></center>
+        </td>
+        <td>
+            <p>
+                <h2>@Model.UserName</h2>
+            </p>
+            <p>
+                <h5>
+                    Subscribers: @Model.Subscribes.Count
+                </h5>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+    </tr>
+</table>
+

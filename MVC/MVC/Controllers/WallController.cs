@@ -6,10 +6,12 @@ using MVC.Models;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using PagedList.Mvc;
 using PagedList;
 using System.Linq;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Data.Entity;
+using System.IO;
 
 namespace MVC.Controllers
 {
@@ -35,10 +37,10 @@ namespace MVC.Controllers
         AppSocialNetworkBDContext context = new AppSocialNetworkBDContext();
 
         [Authorize]
-        public ActionResult Wall()
+        public async Task<ActionResult> Wall()
         {
             string id = User.Identity.GetUserId();
-            currentUser = context.Users.Where(x => x.Id == id).First();
+            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             return View(currentUser);
         }
 
@@ -50,49 +52,64 @@ namespace MVC.Controllers
         }
 
         [Authorize]
-        public ActionResult Messages()
+        public async Task<ActionResult> Messages()
         {
             string id = User.Identity.GetUserId();
-            currentUser = context.Users.Where(x => x.Id == id).First();
+            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             return View(currentUser);
         }
 
         [Authorize]
-        public ActionResult Subscribers(int page=1)
+        public async Task<ActionResult> Subscribers(int page=1)
         {
             int pageSize = 10;
             string id = User.Identity.GetUserId();
-            currentUser = context.Users.Where(x => x.Id == id).First();
-            
-            
+            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             var subscribersBD = context.Subscribes.Where(x => x.OwnerId == currentUser.Id).Select(s=>s.AppUsers.Id).ToList();
             ViewBag.subscribers = subscribersBD.ToPagedList(page, pageSize);
-
             return View(currentUser);
         }
 
         [Authorize]
-        public ActionResult Settings()
+        public async Task<ActionResult> Settings()
         {
             string id = User.Identity.GetUserId();
-            currentUser = context.Users.Where(x => x.Id == id).First();
+            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             return View(currentUser);
         }
 
         [HttpPost]
-        public ActionResult ChangeUserPartial()
+        public async Task<ActionResult> ChangeUserPartial()
         {
             string id = User.Identity.GetUserId();
-            currentUser = context.Users.Where(x => x.Id == id).First();
+            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             return PartialView(currentUser);
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> BlackListPartial()
+        {
+            string id = User.Identity.GetUserId();
+            List<string> blocks = await context.Blocks.Where(x => x.OwnerId == id).Select(s => s.AppUsers.Id).ToListAsync();
+            return PartialView(blocks);
         }
 
         [HttpPost]
-        public ActionResult BlackListPartial()
+        public async Task<ActionResult> AvatarPartial()
         {
             string id = User.Identity.GetUserId();
-            List<string> subscribes = context.Subscribes.Where(x => x.OwnerId == id).Select(s => s.AppUsers.Id).ToList();
-            return PartialView(subscribes);
+            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
+            if (currentUser.Avatar == null)
+            {
+                ViewBag.imageArray = null;
+                return PartialView();
+            }
+            else
+            {
+
+                ViewBag.imageArray = currentUser.Avatar;
+                return PartialView();
+            }
         }
 
         [Authorize]
@@ -100,7 +117,7 @@ namespace MVC.Controllers
         public async Task<ActionResult> Update(AppUser user)
         {
             string id = User.Identity.GetUserId();
-            currentUser = context.Users.Where(x => x.Id == id).First();
+            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             if (ModelState.IsValid)
             {
                 if (user.OldPass != null && user.NewPass != null)
@@ -164,7 +181,7 @@ namespace MVC.Controllers
         public async Task<ActionResult> UnBlock(AppUser user)
         {
             string id = User.Identity.GetUserId();
-            currentUser = context.Users.Where(x => x.Id == id).First();
+            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             var unBlockUser = context.Blocks
                                        .Where(x => x.AppUsers.Id == user.Id && x.OwnerId == id)
                                        .ToList();
@@ -175,13 +192,13 @@ namespace MVC.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> UnSubscribe(string BlockId, int pageNum = 1)
+        public async Task<ActionResult> UnSubscribe(string SubscriberId, int pageNum = 1)
         {
             string id = User.Identity.GetUserId();
-            currentUser = context.Users.Where(x => x.Id == id).First();
-            var unSubscribeUser = context.Subscribes
-                                          .Where(x => x.AppUsers.Id == BlockId && x.OwnerId ==id)
-                                          .ToList();
+            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
+            var unSubscribeUser = await context.Subscribes
+                                          .Where(x => x.AppUsers.Id == SubscriberId && x.OwnerId ==id)
+                                          .ToListAsync();
             context.Subscribes.Remove(unSubscribeUser[0]);
             await context.SaveChangesAsync();
             return RedirectToAction("Subscribers", new { page= pageNum});
@@ -210,6 +227,24 @@ namespace MVC.Controllers
             
             context.SaveChanges();
             return RedirectToAction("Wall");
+        }
+
+        [Authorize]
+        public async Task<ActionResult> UpdateAvatar(HttpPostedFileBase file)
+        {
+            if (file!=null)
+            {
+                Image sourceimage =  Image.FromStream(file.InputStream);
+                string id = User.Identity.GetUserId();
+               
+                using (var ms = new MemoryStream())
+                {
+                    sourceimage.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+                    context.Users.Where(x => x.Id == id).First().Avatar = ms.ToArray();
+                    await context.SaveChangesAsync();
+                }
+            }
+            return RedirectToAction("Settings");
         }
     }
 }

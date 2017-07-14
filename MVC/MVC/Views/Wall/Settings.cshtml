@@ -10,15 +10,21 @@
     <div class="btn-group">
         <ul style="margin-top:5%" class=" nav nav-pills">
             <li>
-                @using (Ajax.BeginForm("ChangeUserPartial", new AjaxOptions { UpdateTargetId = "results" }))
-            {
-                    <input type="submit" value="Settings " class="btn">
-                }
+                    @using (Ajax.BeginForm("ChangeUserPartial", new AjaxOptions { UpdateTargetId = "results" }))
+                    {
+                        <input type="submit" value="Settings " class="btn">
+                    }
             </li>
             <li>
                 @using (Ajax.BeginForm("BlackListPartial", new AjaxOptions { UpdateTargetId = "results" }))
             {
                     <input type="submit" value="Black List" class="btn">
+                }
+            </li>
+            <li>
+                @using (Ajax.BeginForm("AvatarPartial", new AjaxOptions { UpdateTargetId = "results" }))
+            {
+                    <input type="submit" value="Avatar" class="btn">
                 }
             </li>
         </ul>
