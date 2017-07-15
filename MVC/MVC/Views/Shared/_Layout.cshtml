@@ -6,6 +6,8 @@
     <title>@ViewBag.Title</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
 </head>
 <body class="container">
     <div class="container">
@@ -32,7 +34,6 @@
                             if (Model.Admin)
                             {
                                 <li>@Html.ActionLink("Administer", "Index", "Admin")</li>
-                                <li>@Html.ActionLink("Roles", "Index", "RoleAdmin")</li>
                             }
                         }
                     </ul>

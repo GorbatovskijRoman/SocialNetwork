@@ -161,7 +161,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BlockUsersController.cs" />
-    <Compile Include="Controllers\RoleAdminController.cs" />
     <Compile Include="Controllers\WallController.cs" />
     <Compile Include="Filters\BlockBanUser.cs" />
     <Compile Include="Filters\RecaptchaFilter.cs" />
@@ -185,10 +184,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Registrate.cshtml" />
     <Content Include="Views\Wall\Wall.cshtml" />
-    <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\RoleAdmin\Edit.cshtml" />
-    <Content Include="Views\RoleAdmin\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
@@ -199,6 +195,7 @@
     <Content Include="Views\Wall\ChangeUserPartial.cshtml" />
     <Content Include="Views\Wall\AvatarPartial.cshtml" />
     <Content Include="Views\BlockUsers\AccessDenied.cshtml" />
+    <Content Include="Views\Wall\ChangePassPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

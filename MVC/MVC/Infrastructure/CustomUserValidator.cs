@@ -15,8 +15,6 @@ namespace MVC.Infrastructure
         {
             IdentityResult result = await base.ValidateAsync(user);
             
-          //доп. проверка пользователя
-
             return result;
         }
     }

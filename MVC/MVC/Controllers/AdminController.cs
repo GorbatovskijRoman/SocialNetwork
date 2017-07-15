@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity;
 using MVC.Models;
 using System.Threading.Tasks;
 using MVC.Filters;
+using System.Linq;
 
 namespace MVC.Controllers
 {
@@ -25,86 +26,53 @@ namespace MVC.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
             }
         }
-        
-        
-        public async Task<ActionResult> Edit(string id)
+
+        private AppRoleManager RoleManager
         {
-            AppUser user = await UserManager.FindByIdAsync(id);
-            if (user != null)
+            get
             {
-                return View(user);
-            }
-            else
-            {
-                return RedirectToAction("Index");
+                return HttpContext.GetOwinContext().GetUserManager<AppRoleManager>();
             }
         }
-        
-        [HttpPost]
-        public async Task<ActionResult> Edit(string id, string email, string password, string sex)
+
+        public async Task<ActionResult> BlockUser(string id)
         {
             AppUser user = await UserManager.FindByIdAsync(id);
             if (user != null)
             {
-                user.Email = email;
-                IdentityResult validEmail  = await UserManager.UserValidator.ValidateAsync(user);
-                IdentityResult validPass = await UserManager.PasswordValidator.ValidateAsync(password);
-
-                if (!validEmail.Succeeded)
-                {
-                    AddErrorsFromResult(validEmail);
-                }
-                
-                if (validPass.Succeeded)
-                {
-                    user.PasswordHash =  UserManager.PasswordHasher.HashPassword(password);
-                }
-                else
-                {
-                    AddErrorsFromResult(validPass);
-                }
-                
-                if (validEmail.Succeeded && validPass.Succeeded)
-                {
-                    IdentityResult result = await UserManager.UpdateAsync(user);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        AddErrorsFromResult(result);
-                    }
-                }
+                user.Admin = false;
+                await UserManager.UpdateAsync(user);
+                await UserManager.RemoveFromRolesAsync(user.Id, UserManager.GetRoles(user.Id).ToArray());
+                UserManager.AddToRole(user.Id, "Bans");
+                AppRole role = await RoleManager.FindByNameAsync("Bans");
+                await RoleManager.UpdateAsync(role);
             }
-            else
-            {
-                ModelState.AddModelError("", "Пользователь не найден");
-            }
-            return View(user);
+            return RedirectToAction("Index");
         }
-        
-        [HttpPost]
-        public async Task<ActionResult> Delete(string id)
+
+        public async Task<ActionResult> ResetPass(string id)
         {
             AppUser user = await UserManager.FindByIdAsync(id);
-
             if (user != null)
             {
-                IdentityResult result = await UserManager.DeleteAsync(user);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return View("Error", result.Errors);
-                }
+                user.ResetPass = true;
             }
-            else
+            return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> MakeAdmin(string id)
+        {
+            AppUser user = await UserManager.FindByIdAsync(id);
+            if (user != null)
             {
-                return View("Error", new string[] { "Пользователь не найден" });
+                user.Admin = true;
+                await UserManager.UpdateAsync(user);
+                await UserManager.RemoveFromRolesAsync(user.Id, UserManager.GetRoles(user.Id).ToArray());
+                UserManager.AddToRole(user.Id, "Administrators");
+                AppRole role = await RoleManager.FindByNameAsync("Administrators");
+                await RoleManager.UpdateAsync(role);
             }
+            return RedirectToAction("Index");
         }
 
         private void AddErrorsFromResult(IdentityResult result)

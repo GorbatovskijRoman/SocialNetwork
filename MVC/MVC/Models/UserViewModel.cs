@@ -16,19 +16,12 @@ namespace MVC.Models
         public string Password { get; set; }
     }
 
-    public class RoleEditModel
-    {
-        public AppRole Role { get; set; }
-        public IEnumerable<AppUser> Members { get; set; }
-        public IEnumerable<AppUser> NonMembers { get; set; }
-    }
-
-    public class RoleModificationModel
+    public class PasswordChangeModel
     {
         [Required]
-        public string RoleName { get; set; }
-        public string[] IdsToAdd { get; set; }
-        public string[] IdsToDelete { get; set; }
+        public string OldPass { get; set; }
+        [Required]
+        public string NewPass { get; set; }
     }
 
     public class Subscribe

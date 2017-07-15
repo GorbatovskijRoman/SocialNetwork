@@ -35,17 +35,25 @@ namespace MVC.Controllers
             }
         }
 
-        AppUser currentUser = new AppUser();
         AppSocialNetworkBDContext context = new AppSocialNetworkBDContext();
+            
+        AppUser currentUser
+        {
+            get
+            {
+                string id = User.Identity.GetUserId();
+                return context.Users.Where(x => x.Id == id).First();
+            }
+        }
 
         [BlockUsers]
-        public async Task<ActionResult> Wall()
+        public ActionResult Wall()
         {
             string id = User.Identity.GetUserId();
-            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
-            return View(currentUser);
+            return View(UserManager.FindById(id));
         }
         
+        //SignOut
         public ActionResult Click()
         {
             AuthManager.SignOut();
@@ -53,37 +61,41 @@ namespace MVC.Controllers
         }
 
         [BlockUsers]
-        public async Task<ActionResult> Messages()
+        public ActionResult Messages()
         {
-            string id = User.Identity.GetUserId();
-            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             return View(currentUser);
         }
         [BlockUsers]
-        public async Task<ActionResult> Subscribers(int page=1)
+        public ActionResult Subscribers(int page=1)
         {
             int pageSize = 10;
-            string id = User.Identity.GetUserId();
-            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             var subscribersBD = context.Subscribes.Where(x => x.OwnerId == currentUser.Id).Select(s=>s.AppUsers.Id).ToList();
             ViewBag.subscribers = subscribersBD.ToPagedList(page, pageSize);
             return View(currentUser);
         }
+
         [BlockUsers]
-        public async Task<ActionResult> Settings()
+        public ActionResult Settings()
         {
-            string id = User.Identity.GetUserId();
-            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             return View(currentUser);
         }
+
         [BlockUsers]
         [HttpPost]
-        public async Task<ActionResult> ChangeUserPartial()
+        public ActionResult ChangeUserPartial()
         {
-            string id = User.Identity.GetUserId();
-            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             return PartialView(currentUser);
         }
+
+        [BlockUsers]
+        [HttpPost]
+        public ActionResult ChangePassPartial()
+        {
+            ViewBag.ID = currentUser.Id;
+            PasswordChangeModel pasCh = new PasswordChangeModel();
+            return PartialView(pasCh);
+        }
+
         [BlockUsers]
         [HttpPost]
         public async Task<ActionResult> BlackListPartial()
@@ -95,10 +107,8 @@ namespace MVC.Controllers
 
         [BlockUsers]
         [HttpPost]
-        public async Task<ActionResult> AvatarPartial()
+        public ActionResult AvatarPartial()
         {
-            string id = User.Identity.GetUserId();
-            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             if (currentUser.Avatar == null)
             {
                 ViewBag.imageArray = null;
@@ -114,90 +124,79 @@ namespace MVC.Controllers
 
         [BlockUsers]
         [HttpPost]
-        public async Task<ActionResult> Update(AppUser user)
+        public async Task<ActionResult> UpdatePass(PasswordChangeModel passChange)
         {
-            string id = User.Identity.GetUserId();
-            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             if (ModelState.IsValid)
             {
-                if (user.OldPass != null && user.NewPass != null)
-                {
-                    user.Email = currentUser.Email;
-                    IdentityResult validUser = await UserManager.UserValidator.ValidateAsync(user);
-                    IdentityResult validPass = await UserManager.PasswordValidator.ValidateAsync(user.OldPass);
+                IdentityResult validOld = await UserManager.PasswordValidator.ValidateAsync(passChange.OldPass);
+                IdentityResult validNew = await UserManager.PasswordValidator.ValidateAsync(passChange.NewPass);
 
-                    if (validUser.Succeeded)
+                if (validNew.Succeeded && validOld.Succeeded)
+                {
+                    if (currentUser.PasswordHash == UserManager.PasswordHasher.HashPassword(passChange.OldPass))
                     {
-                        if (validPass.Succeeded)
-                        {
-                            validPass = await UserManager.PasswordValidator.ValidateAsync(user.NewPass);
-                            if (validPass.Succeeded)
-                            {
-                                if (PasswordVerificationResult.Success == UserManager.PasswordHasher.VerifyHashedPassword(currentUser.PasswordHash, user.OldPass))
-                                {
-                                    currentUser.PasswordHash = UserManager.PasswordHasher.HashPassword(user.NewPass);
-                                    currentUser.UserName = user.UserName;
-                                    IdentityResult result = await UserManager.UpdateAsync(currentUser);
-                                    if (result.Succeeded)
-                                    {
-                                        currentUser = UserManager.FindById(currentUser.Id);
-                                        return RedirectToAction("Settings", currentUser);
-                                    }
-                                    else
-                                    {
-                                        foreach (string error in result.Errors) ModelState.AddModelError("", error);
-                                    }
-                                }
-                                else
-                                {
-                                    ModelState.AddModelError("update", "Old password is uncorrect");
-                                }
-                            }
-                            else
-                            {
-                                foreach (string error in validPass.Errors) ModelState.AddModelError("new", error);
-                            }
-                        }
-                        else
-                        {
-                            foreach (string error in validPass.Errors) ModelState.AddModelError("old", error);
-                        }
+                        currentUser.PasswordHash = passChange.NewPass;
+                        await context.SaveChangesAsync();
+                        return RedirectToAction("Wall");
                     }
                     else
                     {
-                        foreach (string error in validUser.Errors) ModelState.AddModelError("name", error);
+                        ModelState.AddModelError("", "Old password did not match with current");
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("all", "Fill in all the fields");
+                    foreach (string error in validOld.Errors.Union(validNew.Errors))
+                    {
+                        ModelState.AddModelError("", error);
+                    }
                 }
             }
-            return RedirectToAction("Settings");
+            ViewBag.ID = currentUser.Id;
+            return PartialView("ChangePassPartial", new PasswordChangeModel());
+        }
+
+        [BlockUsers]
+        [HttpPost]
+        public async Task<ActionResult> UpdateName(AppUser user)
+        {
+            if (ModelState.IsValid)
+            {
+                if (user.UserName != "")
+                {
+                    user.Email = currentUser.Email;
+                    IdentityResult validUser = await UserManager.UserValidator.ValidateAsync(user);
+
+                    if (validUser.Succeeded)
+                    {
+                        currentUser.UserName = user.UserName;
+                        await context.SaveChangesAsync();
+                        return RedirectToAction("Wall");
+                    }
+                }
+                else ModelState.AddModelError("","Name is empty");
+            }
+            return PartialView("ChangeUserPartial", currentUser);
         }
 
         [BlockUsers]
         [HttpPost]
         public async Task<ActionResult> UnBlock(AppUser user)
         {
-            string id = User.Identity.GetUserId();
-            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             var unBlockUser = context.Blocks
-                                       .Where(x => x.AppUsers.Id == user.Id && x.OwnerId == id)
+                                       .Where(x => x.AppUsers.Id == user.Id && x.OwnerId == currentUser.Id)
                                        .ToList();
             context.Blocks.Remove(unBlockUser[0]); 
             await context.SaveChangesAsync();
-            return RedirectToAction("Settings");
+            return PartialView("BlackListPartial", currentUser);
         }
 
         [BlockUsers]
         [HttpPost]
         public async Task<ActionResult> UnSubscribe(string SubscriberId, int pageNum = 1)
         {
-            string id = User.Identity.GetUserId();
-            currentUser = await context.Users.Where(x => x.Id == id).FirstAsync();
             var unSubscribeUser = await context.Subscribes
-                                          .Where(x => x.AppUsers.Id == SubscriberId && x.OwnerId ==id)
+                                          .Where(x => x.AppUsers.Id == SubscriberId && x.OwnerId == currentUser.Id)
                                           .ToListAsync();
             context.Subscribes.Remove(unSubscribeUser[0]);
             await context.SaveChangesAsync();
@@ -244,7 +243,7 @@ namespace MVC.Controllers
                     await context.SaveChangesAsync();
                 }
             }
-            return RedirectToAction("Settings");
+            return RedirectToAction("Wall");
         }
     }
 }

@@ -47,7 +47,7 @@ namespace MVC.Controllers
 
             if (details.Email == null || details.Password == null || details.Name == null)
             {
-                ModelState.AddModelError("", "Заполните все поля");
+                ModelState.AddModelError("", "Fill in all fields");
             }
             else
             {
@@ -56,15 +56,15 @@ namespace MVC.Controllers
 
                 if (user == null)
                 {
-                    ModelState.AddModelError("", "Такая почта не зарегистрирована");
+                    ModelState.AddModelError("", "Uncorrect email");
                 }
                 else if (userByName == null)
                 {
-                    ModelState.AddModelError("", "Неправильно указан логин или пароль");
+                    ModelState.AddModelError("", "Uncorrect login or password");
                 }
                 else if (!captchaValid)
                 {
-                    ModelState.AddModelError("", "Неверная капча");
+                    ModelState.AddModelError("", "Uncorrect capthcha");
                 }
                 else
                 {
@@ -76,6 +76,7 @@ namespace MVC.Controllers
                         IsPersistent = false
                     }, ident);
 
+                    //if (UserManager.FindById(User.Identity.GetUserId()).ResetPass) return RedirectToAction("Settings", "Wall");
                     if (returnUrl != "") return Redirect(returnUrl);
                     
                     return RedirectToAction("Wall", "Wall");
@@ -126,7 +127,7 @@ namespace MVC.Controllers
                     }
                     if (!captchaValid)
                     {
-                        ModelState.AddModelError("", "Неверная капча");
+                        ModelState.AddModelError("", "Uncorrect captcha");
                     }
 
                     if (validEmail.Succeeded && validPass.Succeeded && captchaValid)

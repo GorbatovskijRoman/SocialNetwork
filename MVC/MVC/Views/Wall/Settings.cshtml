@@ -1,19 +1,22 @@
 ﻿@model MVC.Models.AppUser
+@using MVC.Models
 @{
     ViewBag.Title = "Settings";
 }
-
-<script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
-
 <center>
     <div class="btn-group">
         <ul style="margin-top:5%" class=" nav nav-pills">
             <li>
-                    @using (Ajax.BeginForm("ChangeUserPartial", new AjaxOptions { UpdateTargetId = "results" }))
-                    {
-                        <input type="submit" value="Settings " class="btn">
-                    }
+                @using (Ajax.BeginForm("ChangePassPartial", new AjaxOptions { UpdateTargetId = "results" }))
+                {
+                    <input type="submit" value="Change Pass " class="btn">
+                }
+            </li>
+            <li>
+                @using (Ajax.BeginForm("ChangeUserPartial", new AjaxOptions { UpdateTargetId = "results" }))
+                {
+                    <input type="submit" value="Change Name " class="btn">
+                }
             </li>
             <li>
                 @using (Ajax.BeginForm("BlackListPartial", new AjaxOptions { UpdateTargetId = "results" }))
@@ -31,6 +34,7 @@
     </div>
 
     <div id="results" style="margin-top:2%">
-        @Html.Partial("ChangeUserPartial")
+       @{ViewBag.ID = Model.Id;}
+        @Html.Partial("ChangePassPartial", new PasswordChangeModel())
     </div>
 </center>
