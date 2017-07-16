@@ -41,11 +41,10 @@ namespace MVC.Controllers
             if (user != null)
             {
                 user.Admin = false;
-                await UserManager.UpdateAsync(user);
+                user.ReLogin = true;
                 await UserManager.RemoveFromRolesAsync(user.Id, UserManager.GetRoles(user.Id).ToArray());
                 UserManager.AddToRole(user.Id, "Bans");
-                AppRole role = await RoleManager.FindByNameAsync("Bans");
-                await RoleManager.UpdateAsync(role);
+                await UserManager.UpdateAsync(user);
             }
             return RedirectToAction("Index");
         }
@@ -56,6 +55,7 @@ namespace MVC.Controllers
             if (user != null)
             {
                 user.ResetPass = true;
+                await UserManager.UpdateAsync(user);
             }
             return RedirectToAction("Index");
         }
@@ -66,11 +66,10 @@ namespace MVC.Controllers
             if (user != null)
             {
                 user.Admin = true;
-                await UserManager.UpdateAsync(user);
+                user.ReLogin = true;
                 await UserManager.RemoveFromRolesAsync(user.Id, UserManager.GetRoles(user.Id).ToArray());
                 UserManager.AddToRole(user.Id, "Administrators");
-                AppRole role = await RoleManager.FindByNameAsync("Administrators");
-                await RoleManager.UpdateAsync(role);
+                await UserManager.UpdateAsync(user);
             }
             return RedirectToAction("Index");
         }

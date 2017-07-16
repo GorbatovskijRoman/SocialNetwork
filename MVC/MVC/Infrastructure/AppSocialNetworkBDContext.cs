@@ -58,7 +58,7 @@ namespace MVC.Infrastructure
             AppUser user = userMgr.FindByName(userName);
             if (user == null)
             {
-                userMgr.Create(new AppUser { UserName = userName, Email = email, Admin = true },
+                userMgr.Create(new AppUser { UserName = userName, Email = email, Admin = true, ReLogin = false, ResetPass = false },
                     password);
                 user = userMgr.FindByName(userName);
             }

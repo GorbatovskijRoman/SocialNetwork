@@ -49,8 +49,14 @@ namespace MVC.Controllers
         [BlockUsers]
         public ActionResult Wall()
         {
+
             string id = User.Identity.GetUserId();
-            return View(UserManager.FindById(id));
+
+            if (currentUser.ResetPass)
+            {
+                return RedirectToAction("Settings", "Wall");
+            }
+            else return View(currentUser);
         }
         
         //SignOut
@@ -133,11 +139,13 @@ namespace MVC.Controllers
 
                 if (validNew.Succeeded && validOld.Succeeded)
                 {
-                    if (currentUser.PasswordHash == UserManager.PasswordHasher.HashPassword(passChange.OldPass))
+                    if (UserManager.PasswordHasher.VerifyHashedPassword(currentUser.PasswordHash, 
+                                                                        passChange.OldPass)
+                                                                        ==PasswordVerificationResult.Success)
                     {
-                        currentUser.PasswordHash = passChange.NewPass;
+                        currentUser.PasswordHash = UserManager.PasswordHasher.HashPassword(passChange.NewPass);
                         await context.SaveChangesAsync();
-                        return RedirectToAction("Wall");
+                        ModelState.AddModelError("", "Password changed");
                     }
                     else
                     {
@@ -152,6 +160,7 @@ namespace MVC.Controllers
                     }
                 }
             }
+            else ModelState.AddModelError("","Password is not valid");
             ViewBag.ID = currentUser.Id;
             return PartialView("ChangePassPartial", new PasswordChangeModel());
         }
@@ -171,10 +180,18 @@ namespace MVC.Controllers
                     {
                         currentUser.UserName = user.UserName;
                         await context.SaveChangesAsync();
-                        return RedirectToAction("Wall");
+                        ModelState.AddModelError("", "Name changed");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Name is not valid");
                     }
                 }
                 else ModelState.AddModelError("","Name is empty");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Name is uncorrect");
             }
             return PartialView("ChangeUserPartial", currentUser);
         }

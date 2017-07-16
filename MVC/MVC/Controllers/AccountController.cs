@@ -75,11 +75,8 @@ namespace MVC.Controllers
                     {
                         IsPersistent = false
                     }, ident);
-
-                    //if (UserManager.FindById(User.Identity.GetUserId()).ResetPass) return RedirectToAction("Settings", "Wall");
-                    if (returnUrl != "") return Redirect(returnUrl);
-                    
-                    return RedirectToAction("Wall", "Wall");
+                    if (returnUrl != null && returnUrl!="") return Redirect(returnUrl);
+                    else return RedirectToAction("Wall", "Wall");
                 }
             }
             return View(details);
@@ -103,6 +100,8 @@ namespace MVC.Controllers
                 if (details.Password != null)
                 {
                     user.Email = details.Email;
+                    user.ReLogin = false;
+                    user.ResetPass = false;
                     IdentityResult validEmail = await UserManager.UserValidator.ValidateAsync(user);
                     IdentityResult validPass = await UserManager.PasswordValidator.ValidateAsync(details.Password);
 
