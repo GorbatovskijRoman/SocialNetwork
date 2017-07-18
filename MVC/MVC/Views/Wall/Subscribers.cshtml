@@ -1,6 +1,5 @@
 ﻿@model MVC.Models.AppUser
 @using PagedList.Mvc;
-@using MVC.Models;
 @using MVC.Infrastructure;
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
@@ -15,24 +14,40 @@
             <th>Name</th>
             <th style="min-width: 150px"></th>
         </tr>
-        @foreach (string item in ViewBag.subscribers)
+        @if (ViewBag.subscribers != null)
+        {
+            foreach (string item in ViewBag.subscribers)
             {
+                <tr>
+                    <td>@item</td>
+                    <td>@Html.GetUserName(item)</td>
+                    <td>
+                        @using (Html.BeginForm("UnSubscribe", "Wall", new
+                        {
+                            SubscriberId = item,
+                            pageNum = (int)(ViewBag.subscribers.PageCount < ViewBag.subscribers.PageNumber ? 0 : ViewBag.subscribers.PageNumber)
+                        }))
+                        {
+                            <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
             <tr>
-                <td>@item</td>
-                <td>@Html.GetUserName(item)</td>
-                <td>
-                    @using (Html.BeginForm("UnSubscribe", "Wall", new { SubscriberId = item,
-                        pageNum = (int)(ViewBag.subscribers.PageCount < ViewBag.subscribers.PageNumber ? 0 : ViewBag.subscribers.PageNumber)
-                    }))
-                    {
-                        <button class="btn btn-danger btn-xs" type="submit">Delete</button>
-                    }
-                </td>
+                <td colspan="3" class="text-center">Subscribes List is empty</td>
             </tr>
         }
     </table>
 </div>
 <br />
-Page @(ViewBag.subscribers.PageCount < ViewBag.subscribers.PageNumber ? 0 : ViewBag.subscribers.PageNumber) of @ViewBag.subscribers.PageCount
+<div>
+    @if (ViewBag.subscribers != null)
+    {
+        <label>Page @(ViewBag.subscribers.PageCount < ViewBag.subscribers.PageNumber ? 0 : ViewBag.subscribers.PageNumber) of @ViewBag.subscribers.PageCount</label>
 
-@Html.PagedListPager((PagedList.IPagedList<string>)ViewBag.subscribers, page => Url.Action("Subscribers", new { page }))
+    @Html.PagedListPager((PagedList.IPagedList<string>)ViewBag.subscribers, page => Url.Action("Subscribers", new { page }))
+    }
+</div>

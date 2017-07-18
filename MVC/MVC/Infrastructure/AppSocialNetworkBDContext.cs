@@ -10,6 +10,8 @@ namespace MVC.Infrastructure
         public AppSocialNetworkBDContext() : base("name=SocialNetworkBD") { }
         public DbSet<Subscribe> Subscribes { get; set; }
         public DbSet<Block> Blocks { get; set; }
+        public DbSet<MessageModel> Message { get; set; }
+        public DbSet<ConnectionInfo> ConInfo { get; set; }
 
         static AppSocialNetworkBDContext()
         {

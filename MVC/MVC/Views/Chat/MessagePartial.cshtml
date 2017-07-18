@@ -1,0 +1,15 @@
+﻿@using MVC.Models
+
+
+@if (ViewBag.ChatContent != null)
+{
+    <ul>
+        @foreach (ChatContent mess in ViewBag.ChatContent)
+        {
+            <li>
+                @mess.Name
+                <p>@mess.Text</p>
+            </li>
+        }
+    </ul>
+}

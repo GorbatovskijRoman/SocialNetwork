@@ -18,18 +18,25 @@ namespace MVC.Filters
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<AppUserManager>();
             AppUser user = userManager.FindByName(filterContext.HttpContext.User.Identity.Name);
 
-            if(user.ReLogin)
+            if (user!=null)
+            {
+                if (user.ReLogin)
+                {
+                    auth.SignOut();
+                    ClaimsIdentity ident = userManager.CreateIdentity(user,
+                            DefaultAuthenticationTypes.ApplicationCookie);
+
+                    auth.SignIn(new AuthenticationProperties
+                    {
+                        IsPersistent = false
+                    }, ident);
+                    user.ReLogin = false;
+                    userManager.Update(user);
+                }
+            }
+            else
             {
                 auth.SignOut();
-                ClaimsIdentity ident = userManager.CreateIdentity(user,
-                        DefaultAuthenticationTypes.ApplicationCookie);
-
-                auth.SignIn(new AuthenticationProperties
-                {
-                    IsPersistent = false
-                }, ident);
-                user.ReLogin = false;
-                userManager.Update(user);
             }
 
             if (filterContext.HttpContext.User.IsInRole("Bans"))

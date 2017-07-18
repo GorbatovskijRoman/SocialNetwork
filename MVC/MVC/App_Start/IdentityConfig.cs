@@ -13,12 +13,12 @@ namespace MVC.App_Start
             app.CreatePerOwinContext<AppSocialNetworkBDContext>(AppSocialNetworkBDContext.Create);
             app.CreatePerOwinContext<AppUserManager>(AppUserManager.Create);
             app.CreatePerOwinContext<AppRoleManager>(AppRoleManager.Create);
-
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
             });
+            app.MapSignalR();
         }
     }
 }

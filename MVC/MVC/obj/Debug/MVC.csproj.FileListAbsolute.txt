@@ -1,4 +1,3 @@
-C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\obj\Debug\MVC.csprojResolveAssemblyReference.cache
 C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\csc.exe
 C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\csc.exe.config
 C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\roslyn\csc.rsp
@@ -78,3 +77,13 @@ C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\PagedList.dll
 C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\PagedList.Mvc.dll
 C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\PagedList.xml
 C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\PagedList.Mvc.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\obj\Debug\MVC.csprojResolveAssemblyReference.cache
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Antlr3.Runtime.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Optimization.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\WebGrease.dll
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\Antlr3.Runtime.pdb
+C:\Users\Роман\Documents\SocialNetwork\MVC\MVC\bin\System.Web.Optimization.xml

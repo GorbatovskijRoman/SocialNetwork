@@ -10,7 +10,6 @@ using PagedList;
 using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Data.Entity;
 using System.IO;
 using MVC.Filters;
 
@@ -42,6 +41,10 @@ namespace MVC.Controllers
             get
             {
                 string id = User.Identity.GetUserId();
+                if(context.Users.Where(x => x.Id == id).Count()==0)
+                {
+                    return UserManager.FindById(id);
+                }
                 return context.Users.Where(x => x.Id == id).First();
             }
         }
@@ -56,7 +59,11 @@ namespace MVC.Controllers
             {
                 return RedirectToAction("Settings", "Wall");
             }
-            else return View(currentUser);
+            else
+            {
+                ViewBag.Subscribers = context.Subscribes.Where(x => x.AppUserId == id).ToList();
+                return View(currentUser);
+            }
         }
         
         //SignOut
@@ -67,16 +74,16 @@ namespace MVC.Controllers
         }
 
         [BlockUsers]
-        public ActionResult Messages()
-        {
-            return View(currentUser);
-        }
-        [BlockUsers]
         public ActionResult Subscribers(int page=1)
         {
             int pageSize = 10;
-            var subscribersBD = context.Subscribes.Where(x => x.OwnerId == currentUser.Id).Select(s=>s.AppUsers.Id).ToList();
-            ViewBag.subscribers = subscribersBD.ToPagedList(page, pageSize);
+            if (context.Subscribes.Where(x => x.AppUserId == currentUser.Id).Count() != 0)
+            {
+                var subscribersBD = context.Subscribes.Where(x => x.AppUserId == currentUser.Id).
+                                                     First().UserSubscribers.
+                                                     Select(s => s.Id).ToList();
+                ViewBag.subscribers = subscribersBD.ToPagedList(page, pageSize);
+            }
             return View(currentUser);
         }
 
@@ -104,10 +111,16 @@ namespace MVC.Controllers
 
         [BlockUsers]
         [HttpPost]
-        public async Task<ActionResult> BlackListPartial()
+        public ActionResult BlackListPartial()
         {
             string id = User.Identity.GetUserId();
-            List<string> blocks = await context.Blocks.Where(x => x.OwnerId == id).Select(s => s.AppUsers.Id).ToListAsync();
+            List<string> blocks = new List<string>();
+            if (context.Blocks.Where(x => x.AppUserId == currentUser.Id).Count()!=0)
+            {
+                blocks = context.Blocks.Where(x => x.AppUserId == currentUser.Id).
+                                                   First().UserBlocks.
+                                                   Select(s => s.Id).ToList();
+            }
             return PartialView(blocks);
         }
 
@@ -200,10 +213,12 @@ namespace MVC.Controllers
         [HttpPost]
         public async Task<ActionResult> UnBlock(AppUser user)
         {
+            var CurUserBlocks = context.Blocks.Where(x => x.AppUserId == currentUser.Id).First();
             var unBlockUser = context.Blocks
-                                       .Where(x => x.AppUsers.Id == user.Id && x.OwnerId == currentUser.Id)
-                                       .ToList();
-            context.Blocks.Remove(unBlockUser[0]); 
+                                       .Where(x => x.AppUserId == currentUser.Id).
+                                       First().UserBlocks.Where(x=>x.Id==user.Id).First();
+            CurUserBlocks.UserBlocks.Remove(unBlockUser);
+
             await context.SaveChangesAsync();
             return PartialView("BlackListPartial", currentUser);
         }
@@ -212,10 +227,11 @@ namespace MVC.Controllers
         [HttpPost]
         public async Task<ActionResult> UnSubscribe(string SubscriberId, int pageNum = 1)
         {
-            var unSubscribeUser = await context.Subscribes
-                                          .Where(x => x.AppUsers.Id == SubscriberId && x.OwnerId == currentUser.Id)
-                                          .ToListAsync();
-            context.Subscribes.Remove(unSubscribeUser[0]);
+            var CurUserSubs = context.Subscribes.Where(x => x.AppUserId == currentUser.Id).First();
+            var unSubsUser = context.Subscribes
+                                       .Where(x => x.AppUserId == currentUser.Id).
+                                       First().UserSubscribers.Where(x => x.Id == SubscriberId).First();
+            CurUserSubs.UserSubscribers.Remove(unSubsUser);
             await context.SaveChangesAsync();
             return RedirectToAction("Subscribers", new { page= pageNum});
         }
@@ -226,7 +242,7 @@ namespace MVC.Controllers
 
             AppUser[] mass = new AppUser[100];
             System.Random rand = new System.Random();
-            for(int i=0;i<100;i++)
+            for (int i = 0; i < 100; i++)
             {
                 mass[i] = new AppUser()
                 {
@@ -235,11 +251,12 @@ namespace MVC.Controllers
                     UserName = rand.Next(10000, 110000) + "",
                     PasswordHash = UserManager.PasswordHasher.HashPassword("Qwerty1234@")
                 };
-                Block block = new Block() { AppUsers = mass[i], OwnerId = User.Identity.GetUserId() };
-                Subscribe subscribe = new Subscribe() { AppUsers = mass[i], OwnerId = User.Identity.GetUserId() };
+            }
+
+            Block block = new Block() { UserBlocks = mass.ToList(), AppUserId = User.Identity.GetUserId() };
+                Subscribe subscribe = new Subscribe() { UserSubscribers = mass.ToList(), AppUserId = User.Identity.GetUserId() };
                 context.Blocks.Add(block);
                 context.Subscribes.Add(subscribe);
-            }
             
             context.SaveChanges();
             return RedirectToAction("Wall");
