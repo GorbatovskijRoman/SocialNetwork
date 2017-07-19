@@ -1,5 +1,5 @@
 ﻿@model MVC.Models.AppUser
- @using MVC.Models
+@using MVC.Models
 @{
     ViewBag.Title = "Message";
 }
@@ -8,55 +8,67 @@
 <table>
     <tr>
         <td>
-            <div class="btn-group">
-                <ul style="margin-top:5%" class=" nav nav-pills">
+            <div class="btn-group-vertical">
                     @foreach (AppUser user in ViewBag.Users)
-            {
-                        <li>
-                            @using (Ajax.BeginForm("MessagePartial", new { recieverId = user.Id }, new AjaxOptions { UpdateTargetId = "results" }))
-                            {
-                                <input type="submit" value="@user.UserName" class="btn">
-                            }
-                        </li>
+                    {
+                        using (Ajax.BeginForm("MessagePartial", new { recieverId = user.Id }, 
+                            new AjaxOptions { UpdateTargetId = "results" }))
+                        {
+                            <input type="submit" id="but" value="@user.UserName" class="btn"/>
+                        }
                     }
-                </ul>
             </div>
         </td>
         <td>
-            <div id="results" style="margin-top:2%">
+            <center>Sender:<input type="text" id="name" /></center>
+            <div id="results" style="margin-left:13%">
                 @Html.Partial("MessagePartial")
             </div>
         </td>
-        <td>
+    </tr>
+    <tr>
+        <td colspan="2">
             <center>
                 <div class="container">
-                    <input type="text" id="name" />
-                    <input type="text" id="message" />
-                    <input type="button" id="sendmessage" value="Send" />
-                    <ul id="discussion"></ul>
+                    <textarea id="message" rows="5" cols="50" name="text"></textarea>
                 </div>
             </center>
         </td>
     </tr>
+    <tr>
+        <td colspan="2">
+            <center> <input type="button" id="sendmessage" value="Send message" /></center>
+        </td>
+    </tr>
 </table>
-    @section scripts
+@section scripts
 {
-        <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-        <script src="~/signalr/hubs"></script>
-        <script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
          $(function () {
              var chat = $.connection.chatHub;
              chat.client.addMessage = function ( sender, reciever,message) {
-                 $('#discussion').append('<li>' + sender +'<p>'+ message +'</p>' + '</li>');
+                 $('#discussion').append('<li>' + '@DateTime.Now' + '<p>'+ '<strong>' +sender+':  </strong>' + message +'</p>' + '</li>');
              };
 
              $.connection.hub.start().done(function () {
                  $('#sendmessage').click(function () {
-                     chat.server.send("@Model.Id", $('#name').val(), $('#message').val());
-                     $('#message').val('').focus();
+                     if ($('#name').val() != "" && $('#message').val())
+                     {
+                         chat.server.send("@Model.Id", $('#name').val(), $('#message').val());
+                         $('#message').val('').focus();
+                         var wtf = $('#scrolling');
+                         var height = wtf[0].scrollHeight;
+                         wtf.scrollTop(height);
+                     }
+                 });
+
+                 $("#but").click(function () {
+                     $('#name').val() = $('#but').val();
                  });
              });
-    });
 
-        </script>
-    }
+    });
+    </script>
+}

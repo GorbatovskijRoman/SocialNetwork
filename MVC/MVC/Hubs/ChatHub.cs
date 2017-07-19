@@ -40,10 +40,7 @@ namespace MVC
                         if (UserReciever.StatusConnection)
                         {
                             Clients.Client(UserReciever.ConnectionId).addMessage(DbContext.Users.Find(sender).UserName, reciever, message);
-                        }
-                        else
-                        {
-                            Clients.Caller.addMessage("", "", "The user is no longer connected.");
+                            Clients.Caller.addMessage(DbContext.Users.Find(sender).UserName, reciever, message);
                         }
                     }
                 }

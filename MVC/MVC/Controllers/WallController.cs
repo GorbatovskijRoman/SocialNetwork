@@ -35,22 +35,18 @@ namespace MVC.Controllers
         }
 
         AppSocialNetworkBDContext context = new AppSocialNetworkBDContext();
-            
+
         AppUser currentUser
         {
             get
             {
                 string id = User.Identity.GetUserId();
-                if(context.Users.Where(x => x.Id == id).Count()==0)
-                {
-                    return UserManager.FindById(id);
-                }
                 return context.Users.Where(x => x.Id == id).First();
             }
         }
 
         [BlockUsers]
-        public ActionResult Wall()
+        public ActionResult Wall(string OwnerId = "")
         {
 
             string id = User.Identity.GetUserId();
@@ -61,11 +57,40 @@ namespace MVC.Controllers
             }
             else
             {
-                ViewBag.Subscribers = context.Subscribes.Where(x => x.AppUserId == id).ToList();
-                return View(currentUser);
+                if (OwnerId == "")
+                {
+                    if (context.Subscribes.Find(id) != null)
+                        ViewBag.Subscribers = context.Subscribes.Find(id).UserSubscribers.Count();
+                    else ViewBag.Subscribers = 0;
+                    return View(currentUser);
+                }
+                else
+                {
+                    AppUser owner = context.Users.Find(OwnerId);
+
+                    if (owner != null)
+                    {
+                        ViewBag.Owner = owner;
+                        ViewBag.Subscribers = context.Subscribes.Find(OwnerId).UserSubscribers.Count();
+                        if (context.Subscribes.Find(owner.Id) != null && context.Subscribes.Find(owner.Id).UserSubscribers.Contains(currentUser))
+                        {
+                            ViewBag.Subscribe = false;
+                        }
+                        else
+                        {
+                            ViewBag.Subscribe = true;
+                        }
+                        return View("GuestWall", currentUser);
+                    }
+                    else
+                    {
+                        ViewBag.Subscribers = context.Subscribes.Where(x => x.AppUserId == id).ToList();
+                        return View(currentUser);
+                    }
+                }
             }
         }
-        
+
         //SignOut
         public ActionResult Click()
         {
@@ -74,7 +99,7 @@ namespace MVC.Controllers
         }
 
         [BlockUsers]
-        public ActionResult Subscribers(int page=1)
+        public ActionResult Subscribers(int page = 1)
         {
             int pageSize = 10;
             if (context.Subscribes.Where(x => x.AppUserId == currentUser.Id).Count() != 0)
@@ -115,7 +140,7 @@ namespace MVC.Controllers
         {
             string id = User.Identity.GetUserId();
             List<string> blocks = new List<string>();
-            if (context.Blocks.Where(x => x.AppUserId == currentUser.Id).Count()!=0)
+            if (context.Blocks.Where(x => x.AppUserId == currentUser.Id).Count() != 0)
             {
                 blocks = context.Blocks.Where(x => x.AppUserId == currentUser.Id).
                                                    First().UserBlocks.
@@ -152,9 +177,9 @@ namespace MVC.Controllers
 
                 if (validNew.Succeeded && validOld.Succeeded)
                 {
-                    if (UserManager.PasswordHasher.VerifyHashedPassword(currentUser.PasswordHash, 
+                    if (UserManager.PasswordHasher.VerifyHashedPassword(currentUser.PasswordHash,
                                                                         passChange.OldPass)
-                                                                        ==PasswordVerificationResult.Success)
+                                                                        == PasswordVerificationResult.Success)
                     {
                         currentUser.PasswordHash = UserManager.PasswordHasher.HashPassword(passChange.NewPass);
                         await context.SaveChangesAsync();
@@ -173,7 +198,7 @@ namespace MVC.Controllers
                     }
                 }
             }
-            else ModelState.AddModelError("","Password is not valid");
+            else ModelState.AddModelError("", "Password is not valid");
             ViewBag.ID = currentUser.Id;
             return PartialView("ChangePassPartial", new PasswordChangeModel());
         }
@@ -200,7 +225,7 @@ namespace MVC.Controllers
                         ModelState.AddModelError("", "Name is not valid");
                     }
                 }
-                else ModelState.AddModelError("","Name is empty");
+                else ModelState.AddModelError("", "Name is empty");
             }
             else
             {
@@ -216,7 +241,7 @@ namespace MVC.Controllers
             var CurUserBlocks = context.Blocks.Where(x => x.AppUserId == currentUser.Id).First();
             var unBlockUser = context.Blocks
                                        .Where(x => x.AppUserId == currentUser.Id).
-                                       First().UserBlocks.Where(x=>x.Id==user.Id).First();
+                                       First().UserBlocks.Where(x => x.Id == user.Id).First();
             CurUserBlocks.UserBlocks.Remove(unBlockUser);
 
             await context.SaveChangesAsync();
@@ -233,7 +258,7 @@ namespace MVC.Controllers
                                        First().UserSubscribers.Where(x => x.Id == SubscriberId).First();
             CurUserSubs.UserSubscribers.Remove(unSubsUser);
             await context.SaveChangesAsync();
-            return RedirectToAction("Subscribers", new { page= pageNum});
+            return RedirectToAction("Subscribers", new { page = pageNum });
         }
 
         [BlockUsers]
@@ -254,10 +279,10 @@ namespace MVC.Controllers
             }
 
             Block block = new Block() { UserBlocks = mass.ToList(), AppUserId = User.Identity.GetUserId() };
-                Subscribe subscribe = new Subscribe() { UserSubscribers = mass.ToList(), AppUserId = User.Identity.GetUserId() };
-                context.Blocks.Add(block);
-                context.Subscribes.Add(subscribe);
-            
+            Subscribe subscribe = new Subscribe() { UserSubscribers = mass.ToList(), AppUserId = User.Identity.GetUserId() };
+            context.Blocks.Add(block);
+            context.Subscribes.Add(subscribe);
+
             context.SaveChanges();
             return RedirectToAction("Wall");
         }
@@ -265,11 +290,11 @@ namespace MVC.Controllers
         [BlockUsers]
         public async Task<ActionResult> UpdateAvatar(HttpPostedFileBase file)
         {
-            if (file!=null)
+            if (file != null)
             {
-                Image sourceimage =  Image.FromStream(file.InputStream);
+                Image sourceimage = Image.FromStream(file.InputStream);
                 string id = User.Identity.GetUserId();
-               
+
                 using (var ms = new MemoryStream())
                 {
                     sourceimage.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);

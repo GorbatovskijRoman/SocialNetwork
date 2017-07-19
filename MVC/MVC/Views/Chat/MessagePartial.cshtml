@@ -1,15 +1,21 @@
 ﻿@using MVC.Models
 
 
-@if (ViewBag.ChatContent != null)
-{
-    <ul>
-        @foreach (ChatContent mess in ViewBag.ChatContent)
+
+<div id="scrolling" style="width:700px; height:400px; overflow:auto; border:groove">
+    <ul id="discussion" style="margin-left:15%; list-style-type:none">
+        @if (ViewBag.ChatContent != null)
         {
-            <li>
-                @mess.Name
-                <p>@mess.Text</p>
-            </li>
+            foreach (ChatContent mess in ViewBag.ChatContent)
+            {
+                <li>
+                    @mess.Time
+                    <p>
+                        <strong>@mess.Name</strong>: 
+                        @mess.Text
+                    </p>
+                </li>
+            }
         }
     </ul>
-}
+</div>
