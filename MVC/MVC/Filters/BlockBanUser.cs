@@ -12,10 +12,11 @@ namespace MVC.Filters
 {
     public class BlockUsersAttribute: AuthorizeAttribute
     {
+
         public override void  OnAuthorization(AuthorizationContext filterContext)
         {
-            var auth = HttpContext.Current.GetOwinContext().Authentication;
-            var userManager = HttpContext.Current.GetOwinContext().GetUserManager<AppUserManager>();
+            IAuthenticationManager auth = HttpContext.Current.GetOwinContext().Authentication;
+            AppUserManager userManager = HttpContext.Current.GetOwinContext().GetUserManager<AppUserManager>();
             AppUser user = userManager.FindByName(filterContext.HttpContext.User.Identity.Name);
 
             if (user!=null)

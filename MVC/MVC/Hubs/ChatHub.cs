@@ -27,22 +27,21 @@ namespace MVC
                     ConnectionInfo UserReciever = DbContext.ConInfo.Find(recieverId);
                     if (UserReciever != null)
                     {
-                        MessageModel mes = new MessageModel()
-                        {
-                            RecieverId = user,
-                            MessageText = message,
-                            SenderId = DbContext.Users.Find(sender),
-                            SendTime = DateTime.Now
-                        };
-                        DbContext.Message.Add(mes);
-                        DbContext.SaveChanges();
-
                         if (UserReciever.StatusConnection)
                         {
                             Clients.Client(UserReciever.ConnectionId).addMessage(DbContext.Users.Find(sender).UserName, reciever, message);
                             Clients.Caller.addMessage(DbContext.Users.Find(sender).UserName, reciever, message);
                         }
                     }
+                    MessageModel mes = new MessageModel()
+                    {
+                        RecieverId = user,
+                        MessageText = message,
+                        SenderId = DbContext.Users.Find(sender),
+                        SendTime = DateTime.Now
+                    };
+                    DbContext.Message.Add(mes);
+                    DbContext.SaveChanges();
                 }
                 else Clients.Caller.addMessage("", "", "This user is you.");
             }

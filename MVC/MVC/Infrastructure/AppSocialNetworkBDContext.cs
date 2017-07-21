@@ -12,6 +12,8 @@ namespace MVC.Infrastructure
         public DbSet<Block> Blocks { get; set; }
         public DbSet<MessageModel> Message { get; set; }
         public DbSet<ConnectionInfo> ConInfo { get; set; }
+        public DbSet<WallPost> Posts { get; set; }
+        public DbSet<WallPostComment> Comments { get; set; }
 
         static AppSocialNetworkBDContext()
         {

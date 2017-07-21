@@ -224,6 +224,7 @@
     <Compile Include="Controllers\BlockUsersController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\GuestController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\WallController.cs" />
     <Compile Include="Filters\BlockBanUser.cs" />
     <Compile Include="Filters\RecaptchaFilter.cs" />
@@ -271,6 +272,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Posts\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

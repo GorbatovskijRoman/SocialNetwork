@@ -33,6 +33,26 @@ namespace MVC.Models
         public string NewPass { get; set; }
     }
 
+    public class WallPost
+    {
+        public int Id { get; set; }
+        
+        public string Content { get; set; }
+        public DateTime Time { get; set; }
+        public int LikeCount { get; set; }
+        public List<WallPostComment> Comments { get; set; }
+        public virtual AppUser Owner {get;set;}
+        public virtual AppUser Wall { get; set; }
+    }
+
+    public class WallPostComment
+    {
+        public int Id { get; set; }
+        public string Content { get; set; }
+        public List<AppUser> User { get; set; }
+        public DateTime Time { get; set; }
+    }
+
     public class MessageModel
     {
         [Key]

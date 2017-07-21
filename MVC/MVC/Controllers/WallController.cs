@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using MVC.Filters;
+using System;
 
 namespace MVC.Controllers
 {
@@ -59,6 +60,7 @@ namespace MVC.Controllers
             {
                 if (OwnerId == "")
                 {
+                    ViewBag.Posts = context.Posts.Where(z => z.Wall == currentUser).OrderByDescending(x => x.Time).ToList();
                     if (context.Subscribes.Find(id) != null)
                         ViewBag.Subscribers = context.Subscribes.Find(id).UserSubscribers.Count();
                     else ViewBag.Subscribers = 0;
@@ -68,23 +70,30 @@ namespace MVC.Controllers
                 {
                     AppUser owner = context.Users.Find(OwnerId);
 
-                    if (owner != null)
+                    if (owner != null && owner.Id!=currentUser.Id)
                     {
                         ViewBag.Owner = owner;
-                        ViewBag.Subscribers = context.Subscribes.Find(OwnerId).UserSubscribers.Count();
+                        ViewBag.Posts = context.Posts.Where(z => z.Wall == owner).OrderByDescending(x => x.Time).ToList();
                         if (context.Subscribes.Find(owner.Id) != null && context.Subscribes.Find(owner.Id).UserSubscribers.Contains(currentUser))
                         {
+                            ViewBag.Subscribers = context.Subscribes.Find(OwnerId).UserSubscribers.Count();
                             ViewBag.Subscribe = false;
                         }
                         else
                         {
+                            ViewBag.Subscribers = 0;
                             ViewBag.Subscribe = true;
                         }
                         return View("GuestWall", currentUser);
                     }
                     else
                     {
-                        ViewBag.Subscribers = context.Subscribes.Where(x => x.AppUserId == id).ToList();
+                        if (context.Subscribes.Find(currentUser.Id) != null)
+                        {
+                            ViewBag.Subscribers = context.Subscribes.Find(currentUser.Id).UserSubscribers.Count();
+                        }
+                        else ViewBag.Subscribers = 0;
+                        ViewBag.Posts = context.Posts.Where(z => z.Wall == currentUser).OrderByDescending(x => x.Time).ToList();
                         return View(currentUser);
                     }
                 }

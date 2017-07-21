@@ -1,4 +1,5 @@
-﻿@model MVC.Models.AppUser
+﻿@using MVC.Models
+@model MVC.Models.AppUser
 @{
     ViewBag.Title = "Wall";
     string imgSrc = null;
@@ -9,27 +10,83 @@
     }
 }
 
-<div style="margin-top:5%">
-    <a href="@Url.Action("Random", "Wall")">
-        Random
-        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-    </a>
-</div>
 
 <table class="table">
     <tr>
         <td style="width:30%;">
-            <center><img src="@imgSrc" style=" width:300px; height: auto; max-height:500px" /></center>
+            @if (imgSrc == null)
+            {
+                <center>
+                    <img src="http://www.ehypermart.in/0/images/frontend/image-not-found.png" style="border:groove; width:300px; height: auto; max-height:500px">
+                    @Html.ActionLink("Set avatar", "Settings", "Wall", new { @class = "btn btn-primary", @style = "margin-top:5%" })
+                </center>
+            }
+            else
+            {
+                <center>
+                    <img src="@imgSrc" style="border:groove; width:300px; height: auto; max-height:500px">
+                     @Html.ActionLink("Set avatar", "Settings", "Wall", new { @class = "btn btn-primary", @style = "margin-top:5%" })
+            </center>
+            }
         </td>
+        
         <td>
             <p>
                 <h2>@Model.UserName</h2>
             </p>
             <p>
                 <h5>
-                    Subscribers: @ViewBag.Subscribers
+                    @Html.ActionLink("Subscribers:  " + (int)@ViewBag.Subscribers, "Subscribers", "Wall")
                 </h5>
             </p>
+            <hr />
+             <div class="text-primary">
+                 @using (@Html.BeginForm("AddPost", "Posts"))
+                 {
+                    <input type="text" name="to" hidden value="@Model.Id" />
+                    @Html.TextArea("Content", new {@style="width:750px; height:150px; resize:none" })
+                     <br />
+                    <input type="submit" value="Add New Post" class="btn btn-primary center-block"/>
+                 }
+             </div>
+            @if (ViewBag.Posts != null)
+            {
+                    foreach (WallPost posts in (List<WallPost>)(ViewBag.Posts))
+                    {
+                    <div style="width:95%; margin-top:5%; background-color:aliceblue;
+                          box-sizing:border-box; padding:20px; word-break:break-all; border:groove">
+                        <p style="margin-left:10%; margin-top:5%">
+                            <h3>@Html.ActionLink(posts.Owner.UserName, "Wall", "Wall", new { OwnerId = posts.Owner.Id })</h3>
+                            <h5>@posts.Time</h5>
+                            <br />
+                                @posts.Content
+                            <br />
+                            <br />
+                            <div style="width:95%">
+                                <a href="@Url.Action("Like", "Posts", new { Id = posts.Id })" class="btn btn-primary">
+                                    <font color="white">
+                                        Like
+                                        @posts.LikeCount
+                                        <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                                    </font> 
+                                </a>
+                                <a href="@Url.Action("Delete", "Posts", new { Id = posts.Id })" class="btn btn-danger pull-right">
+                                    <font color="white">
+                                        Delete
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </font>
+                                </a>
+                            </div>
+                        </p>
+                    </div>
+                    }
+                }
+            else
+            {
+                <center>
+                   <h2 style="margin-top:20%">No posts</h2>
+                </center>
+            }
         </td>
     </tr>
 </table>
