@@ -12,10 +12,11 @@
 }
 
 <div id="dialog" title="" class="btn btn-default">
-    <div><label for="count">Message </label>
+    <div>
+        <label for="count">Message </label>
         <textarea id="message" style="width:400px;height:200px;"></textarea>
     </div>
-    <div><input type="button" id="sendMessage" class="btn btn-primary" value="Send"/></div>
+    <div><input type="button" id="sendMessage" class="btn btn-primary" value="Send" /></div>
 </div>
 
 <table class="table">
@@ -30,21 +31,31 @@
                 {
                     <img src="@imgSrc" style=" width:300px; height: auto; max-height:500px">
                 }
-                
+
                 <button id="show" class="btn btn-primary" style="margin-top:5%">Send Message</button>
                 @if (ViewBag.Subscribe)
-            {
-                    @Html.ActionLink("Subscribe", "Subscribe", "Guest", new { OwnerId = ViewBag.Owner.Id }, 
-                    new { @class = "btn btn-primary", @style="margin-top:5%"})
+                {
+                    @Html.ActionLink("Subscribe", "Subscribe", "Guest", new { OwnerId = ViewBag.Owner.Id },
+                    new { @class = "btn btn-primary", @style = "margin-top:5%" })
                 }
                 else
                 {
                     @Html.ActionLink("UnSubscribe", "UnSubscribe", "Guest", new { OwnerId = ViewBag.Owner.Id },
                    new { @class = "btn btn-primary", @style = "margin-top:5%" })
                 }
-            </center> 
+                @if (!ViewBag.Block)
+                {
+                    @Html.ActionLink("Block", "Block", "Guest", new { BlockId = ViewBag.Owner.Id },
+                   new { @class = "btn btn-primary", @style = "margin-top:5%" })
+                }
+                else
+                {
+                    @Html.ActionLink("UnBlock", "UnBlock", "Guest", new { BlockId = ViewBag.Owner.Id },
+                   new { @class = "btn btn-primary", @style = "margin-top:5%" })
+                }
+            </center>
         </td>
-        <td >
+        <td>
             <p>
                 <h2>@owner.UserName</h2>
             </p>
@@ -52,9 +63,10 @@
                 <h5>
                     Subscribers: @ViewBag.Subscribers
                 </h5>
-            </p> 
+            </p>
             <hr />
-            <div class="text-primary">
+            @if (!ViewBag.Ban)
+            { <div class="text-primary">
                 @using (@Html.BeginForm("AddPost", "Posts", new { OwnerWall = Model }))
                 {
                     <input type="text" name="to" hidden value="@owner.Id" />
@@ -63,58 +75,109 @@
                     <input type="submit" value="Add New Post" class="btn btn-primary center-block" />
                 }
             </div>
-             @if (ViewBag.Posts != null)
+            if (ViewBag.Posts != null)
             {
-                    foreach (WallPost posts in (List<WallPost>)(ViewBag.Posts))
-                    {
-                        <div style="width:95%; margin-top:5%; background-color:aliceblue;
+                foreach (WallPost posts in (List<WallPost>)(ViewBag.Posts))
+                {
+                    <div style="width:95%; margin-top:5%; background-color:aliceblue;
                           box-sizing:border-box; padding:20px; word-break:break-all; border:groove">
-                            <p style="margin-left:10%; margin-top:5%">
-                                <h3>@Html.ActionLink(posts.Owner.UserName, "Wall", "Wall", new { OwnerId = posts.Owner.Id })</h3>
-                                <h5>@posts.Time</h5>
-                                <br />
-                                @posts.Content
-                                <br />
-                                <br />
-                                <div style="width:95%">
-                                    <a href="@Url.Action("Like", "Posts",new { Id = posts.Id })" class="btn btn-primary">
+                        <p style="margin-left:10%; margin-top:5%">
+                            <h3>@Html.ActionLink(posts.Owner.UserName, "Wall", "Wall", new { OwnerId = posts.Owner.Id })</h3>
+                            <h5>@posts.Time</h5>
+                            <br />
+                            @posts.Content
+                            <br />
+                            <br />
+                            <div style="width:95%">
+                                @using (Ajax.BeginForm("Like", "Posts", new { Id = posts.Id }, new AjaxOptions { UpdateTargetId = @posts.Id.ToString() }))
+                                {
+                                    <button id="@posts.Id" type="submit" class="btn btn-primary">
                                         <font color="white">
-                                            Like
-                                            @posts.LikeCount
                                             <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                                            @posts.LikeCount
                                         </font>
-                                    </a>
-                                    <a href="@Url.Action("Delete", "Posts", new { Id = posts.Id })" class="btn btn-danger pull-right">
-                                        <font color="white">
-                                            Delete
-                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                        </font>
-                                    </a>
-                                </div>
-                            </p>
-                        </div>
-                     }
-             }
-             else
-             {
-                    <center>
-                        <h2 style="margin-top:20%">No posts</h2>
-                    </center>
+                                    </button>
+                                    <a  class="btn btn-primary" href="@Url.Action("Repost", "Posts",
+                                    new { id = posts.Id })"><span class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
+                                    
+                                    if (Model.Id == posts.Owner.Id || Model.Id == posts.Wall.Id)
+                                    {
+                                        <a href="@Url.Action("Delete", "Posts", new { Id = posts.Id, OwnerId = owner.Id })" class="btn btn-danger pull-right">
+                                            <font color="white">
+                                                Delete
+                                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                            </font>
+                                        </a>
+                                    }
+                                }
+                            </div>
+                        </p>
+                    </div>
                 }
+            }
+            else
+            {
+                <center>
+                    <h2 style="margin-top:20%">No posts</h2>
+                </center>
+            }}
+            else
+            {
+                <center>
+                    <h2 style="margin-top:20%">Access Denied for this user</h2>
+                </center>
+            }
         </td>
     </tr>
-</table>  
+</table>
 <style>
-    label, input { display:block; }
-    input.text { margin-bottom:12px; width:95%; padding: .4em; }
-    fieldset { padding:0; border:0; margin-top:25px; }
-    h1 { font-size: 1.2em; margin: .6em 0; }
-    div#users-contain { width: 350px; margin: 20px 0; }
-    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
-    .ui-dialog .ui-state-error { padding: .3em; }
-    .validateTips { border: 1px solid transparent; padding: 0.3em; }
-  </style>
+    label, input {
+        display: block;
+    }
+
+        input.text {
+            margin-bottom: 12px;
+            width: 95%;
+            padding: .4em;
+        }
+
+    fieldset {
+        padding: 0;
+        border: 0;
+        margin-top: 25px;
+    }
+
+    h1 {
+        font-size: 1.2em;
+        margin: .6em 0;
+    }
+
+    div#users-contain {
+        width: 350px;
+        margin: 20px 0;
+    }
+
+        div#users-contain table {
+            margin: 1em 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            div#users-contain table td, div#users-contain table th {
+                border: 1px solid #eee;
+                padding: .6em 10px;
+                text-align: left;
+            }
+
+    .ui-dialog .ui-state-error {
+        padding: .3em;
+    }
+
+    .validateTips {
+        border: 1px solid transparent;
+        padding: 0.3em;
+    }
+</style>
 @section scripts
 {
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>

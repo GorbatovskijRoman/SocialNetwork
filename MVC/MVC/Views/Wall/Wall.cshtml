@@ -59,23 +59,29 @@
                             <h3>@Html.ActionLink(posts.Owner.UserName, "Wall", "Wall", new { OwnerId = posts.Owner.Id })</h3>
                             <h5>@posts.Time</h5>
                             <br />
-                                @posts.Content
+                               @posts.Content
                             <br />
                             <br />
                             <div style="width:95%">
-                                <a href="@Url.Action("Like", "Posts", new { Id = posts.Id })" class="btn btn-primary">
-                                    <font color="white">
-                                        Like
-                                        @posts.LikeCount
-                                        <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                                    </font> 
-                                </a>
-                                <a href="@Url.Action("Delete", "Posts", new { Id = posts.Id })" class="btn btn-danger pull-right">
+                                @using (Ajax.BeginForm("Like", "Posts", new { Id = posts.Id }, new AjaxOptions { UpdateTargetId = @posts.Id.ToString() }))
+                                {
+                                    <button id="@posts.Id" type="submit" class="btn btn-primary">
+                                        <font color="white">
+                                            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                                            @posts.LikeCount
+                                        </font>
+                                    </button>
+                                   
+                                if (Model.Id == posts.Owner.Id || Model.Id == posts.Wall.Id)
+                                {
+                                    <a href="@Url.Action("Delete", "Posts", new { Id = posts.Id, OwnerId = Model.Id })" class="btn btn-danger pull-right">
                                     <font color="white">
                                         Delete
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </font>
-                                </a>
+                                    </a>
+                                }
+                                }
                             </div>
                         </p>
                     </div>

@@ -1,0 +1,74 @@
+﻿@using MVC.Models
+@model MVC.Models.AppUser
+@{
+    ViewBag.Title = "News";
+}
+
+<center><h2>News</h2></center>
+
+<center>
+    <div class="btn-group">
+        <ul style="margin-top:5%" class=" nav nav-pills">
+            <li>
+                @using (Html.BeginForm("News", "Wall", new { hours = 1 }))
+                {
+                    <input type="submit" value="1 hours ago" class="btn">
+                }
+            </li>
+            <li>
+                @using (Html.BeginForm("News", "Wall", new { hours = 24 }))
+                {
+                    <input type="submit" value="1 day ago" class="btn">
+                }
+            </li>
+            <li>
+                @using (Html.BeginForm("News", "Wall", new { hours = 24 * 7 }))
+                {
+                    <input type="submit" value="1 week ago" class="btn">
+                }
+            </li>
+        </ul>
+    </div>
+</center>
+@if (ViewBag.News != null)
+{
+    <div>
+                    @foreach (WallPost posts in (List<WallPost>)(ViewBag.News))
+                    {
+                        <div style="display:table; margin:0 auto; margin-top:5%; background-color:aliceblue;
+                          box-sizing:border-box; padding:20px; word-break:break-all; border:groove">
+                            <p style="margin-left:10%; margin-top:5%; width:750px;">
+                                <h3>@Html.ActionLink(posts.Owner.UserName, "Wall", "Wall", new { OwnerId = posts.Owner.Id })</h3>
+                                <h5>@posts.Time</h5>
+                                <br />
+                                @posts.Content
+                                <br />
+                                <br />
+                                <div style="width:95%">
+                                    @using (Ajax.BeginForm("Like", "Posts", new { Id = posts.Id }, new AjaxOptions { UpdateTargetId = @posts.Id.ToString() }))
+                                    {
+                                        <button id="@posts.Id" type="submit" class="btn btn-primary">
+                                            <font color="white">
+                                                <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                                                @posts.LikeCount
+                                            </font>
+                                        </button>
+                                        <a class="btn btn-primary" href="@Url.Action("Repost", "Posts",
+                                    new { id = posts.Id })"><span class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
+                                    }
+                                </div>
+                            </p>
+                        </div>
+                    }
+    </div>
+}
+else
+{
+    <br />
+    <br />
+    <center>
+        <label>
+            News list is empty
+        </label>
+    </center>
+}

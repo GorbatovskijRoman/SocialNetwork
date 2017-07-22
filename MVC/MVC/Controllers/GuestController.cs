@@ -34,7 +34,18 @@ namespace MVC.Controllers
             return RedirectToAction("Wall", "Wall",new { OwnerId = OwnerId });
         }
 
-        
+        public ActionResult UnBlock(string BlockId)
+        {
+            AppUser blockUser = context.Users.Find(BlockId);
+
+            var CurUserBlocks = context.Blocks.Find(currentUser.Id);
+            CurUserBlocks.UserBlocks.Remove(blockUser);
+            context.SaveChanges();
+
+            return RedirectToAction("Wall", "Wall", new { OwnerId = BlockId });
+        }
+
+
         public ActionResult Subscribe(string OwnerId)
         {
             if (context.Subscribes.Find(OwnerId) != null)
@@ -54,6 +65,26 @@ namespace MVC.Controllers
             context.SaveChanges();
             return RedirectToAction("Wall", "Wall", new { OwnerId = OwnerId });
         }
-        
+
+        public ActionResult Block(string BlockId)
+        {
+            AppUser blockUser = context.Users.Find(BlockId);
+            if (context.Blocks.Find(currentUser.Id) != null)
+            {
+                context.Blocks.Find(currentUser.Id).UserBlocks.Add(blockUser);
+            }
+            else
+            {
+                Block bl = new Block()
+                {
+                    AppUserId = currentUser.Id,
+                    UserBlocks = new List<AppUser>() { blockUser }
+                };
+                context.Blocks.Add(bl);
+            }
+            context.SaveChanges();
+            return RedirectToAction("Wall", "Wall", new { OwnerId = BlockId });
+        }
+
     }
 }

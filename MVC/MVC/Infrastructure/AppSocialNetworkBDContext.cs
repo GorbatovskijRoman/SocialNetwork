@@ -14,6 +14,7 @@ namespace MVC.Infrastructure
         public DbSet<ConnectionInfo> ConInfo { get; set; }
         public DbSet<WallPost> Posts { get; set; }
         public DbSet<WallPostComment> Comments { get; set; }
+        public DbSet<WallPostLike> Likes { get; set; }
 
         static AppSocialNetworkBDContext()
         {

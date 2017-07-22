@@ -13,6 +13,7 @@ using System.Drawing;
 using System.IO;
 using MVC.Filters;
 using System;
+using System.ServiceModel.Syndication;
 
 namespace MVC.Controllers
 {
@@ -60,7 +61,7 @@ namespace MVC.Controllers
             {
                 if (OwnerId == "")
                 {
-                    ViewBag.Posts = context.Posts.Where(z => z.Wall == currentUser).OrderByDescending(x => x.Time).ToList();
+                    ViewBag.Posts = context.Posts.Where(l => l.Wall.Id == currentUser.Id).OrderByDescending(x => x.Time).ToList();
                     if (context.Subscribes.Find(id) != null)
                         ViewBag.Subscribers = context.Subscribes.Find(id).UserSubscribers.Count();
                     else ViewBag.Subscribers = 0;
@@ -70,20 +71,30 @@ namespace MVC.Controllers
                 {
                     AppUser owner = context.Users.Find(OwnerId);
 
-                    if (owner != null && owner.Id!=currentUser.Id)
+                    if (owner != null && owner.Id != currentUser.Id)
                     {
                         ViewBag.Owner = owner;
-                        ViewBag.Posts = context.Posts.Where(z => z.Wall == owner).OrderByDescending(x => x.Time).ToList();
-                        if (context.Subscribes.Find(owner.Id) != null && context.Subscribes.Find(owner.Id).UserSubscribers.Contains(currentUser))
+                        ViewBag.Block = false;
+                        ViewBag.Ban = false;
+                        ViewBag.Subscribers = 0;
+                        ViewBag.Subscribe = true;
+                        ViewBag.Posts = context.Posts.Where(z => z.Wall.Id == owner.Id).OrderByDescending(x => x.Time).ToList();
+
+                        if (context.Blocks.Find(currentUser.Id) != null && context.Blocks.Find(currentUser.Id).UserBlocks.Contains(owner))
+                        {
+                            ViewBag.Block = true;
+                        }
+                        if (context.Blocks.Find(OwnerId) != null && context.Blocks.Find(OwnerId).UserBlocks.Contains(currentUser))
+                        {
+                            ViewBag.Ban = true;
+                        }
+
+                        if (context.Subscribes.Find(OwnerId) != null && context.Subscribes.Find(OwnerId).UserSubscribers.Contains(currentUser))
                         {
                             ViewBag.Subscribers = context.Subscribes.Find(OwnerId).UserSubscribers.Count();
                             ViewBag.Subscribe = false;
                         }
-                        else
-                        {
-                            ViewBag.Subscribers = 0;
-                            ViewBag.Subscribe = true;
-                        }
+
                         return View("GuestWall", currentUser);
                     }
                     else
@@ -93,11 +104,62 @@ namespace MVC.Controllers
                             ViewBag.Subscribers = context.Subscribes.Find(currentUser.Id).UserSubscribers.Count();
                         }
                         else ViewBag.Subscribers = 0;
-                        ViewBag.Posts = context.Posts.Where(z => z.Wall == currentUser).OrderByDescending(x => x.Time).ToList();
+                        ViewBag.Posts = context.Posts.Where(z => z.Wall.Id == currentUser.Id).OrderByDescending(x => x.Time).ToList();
                         return View(currentUser);
                     }
                 }
             }
+        }
+
+        public RssActionResult Rss()
+        {
+            SyndicationFeed feed = new SyndicationFeed("Social", "Network", new Uri("http://localhost:52865/Wall/Wall"), 
+                Guid.NewGuid().ToString(), DateTime.Now);
+            SyndicationItem item = new SyndicationItem("Newsasd", "New in aasdasdmin", new Uri("http://localhost:52865/Wall/Settings"));
+            SyndicationItem item2 = new SyndicationItem("News", "New in admin", new Uri("http://localhost:52865/Wall/Settings"));
+            List<SyndicationItem> items = new List<SyndicationItem>();
+            items.Add(item);
+            items.Add(item2);
+            feed.Items = items;
+            return new RssActionResult() { Feed = feed };
+        }
+
+        public ActionResult Users()
+        {
+            var Users = context.Users;
+            if (Users != null && Users.Count() != 0)
+            {
+                ViewBag.Users = Users.ToList();
+                return View(currentUser);
+            }
+            else
+            {
+                return RedirectToAction("Wall", "Wall");
+            }
+        }
+
+        public ActionResult News(int hours = 1)
+        {
+            var mySubscribers = context.Subscribes.Where(x => x.UserSubscribers.Where(z => z.Id == currentUser.Id).Count() != 0);
+            if (mySubscribers.Count() != 0)
+            {
+                List<WallPost> wp = new List<WallPost>();
+                DateTime dt = DateTime.Now.AddHours(-hours);
+                foreach (Subscribe user in mySubscribers)
+                {
+                    var posts = context.Posts.Where(x => x.Owner.Id == user.AppUserId && x.Time >= dt).ToList();
+                    if (posts.Count() != 0)
+                    {
+                        wp.AddRange(posts);
+                    }
+                }
+                if (wp.Count != 0)
+                {
+                    ViewBag.News = wp.OrderByDescending(x => x.Time).ToList();
+                }
+
+            }
+            return View(currentUser);
         }
 
         //SignOut
@@ -254,7 +316,7 @@ namespace MVC.Controllers
             CurUserBlocks.UserBlocks.Remove(unBlockUser);
 
             await context.SaveChangesAsync();
-            return PartialView("BlackListPartial", currentUser);
+            return RedirectToAction("Settings", "Wall");
         }
 
         [BlockUsers]

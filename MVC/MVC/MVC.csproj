@@ -99,6 +99,7 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -237,6 +238,7 @@
     <Compile Include="Infrastructure\AppUserManager.cs" />
     <Compile Include="Infrastructure\CustomUserValidator.cs" />
     <Compile Include="Infrastructure\IdentityHelper.cs" />
+    <Compile Include="Infrastructure\RssActionResult.cs" />
     <Compile Include="Models\AppRole.cs" />
     <Compile Include="Models\AppRoleManager.cs" />
     <Compile Include="Models\AppUser.cs" />
@@ -263,6 +265,10 @@
     <Content Include="Views\Chat\MessagePartial.cshtml" />
     <Content Include="Views\Wall\GuestWall.cshtml" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
+    <Content Include="Views\Posts\LikeCountPartial.cshtml" />
+    <Content Include="Views\Wall\Users.cshtml" />
+    <Content Include="Views\Wall\News.cshtml" />
+    <Content Include="Views\Wall\Rss.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -272,7 +278,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Posts\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

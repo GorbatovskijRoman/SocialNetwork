@@ -14,13 +14,13 @@
                         using (Ajax.BeginForm("MessagePartial", new { recieverId = user.Id }, 
                             new AjaxOptions { UpdateTargetId = "results" }))
                         {
-                            <input type="submit" id="but" value="@user.UserName" class="btn"/>
+                            <input type="submit" id="but" value="@user.UserName" onclick="AddName($(this).val())" class="btn"/>
                         }
                     }
             </div>
         </td>
         <td>
-            <center>Sender:<input type="text" id="name" /></center>
+            <center>Sender:<input type="text" id="name" value=""/></center>
             <div id="results" style="margin-left:13%">
                 @Html.Partial("MessagePartial")
             </div>
@@ -64,9 +64,9 @@
                      }
                  });
 
-                 $("#but").click(function () {
-                     $('#name').val() = $('#but').val();
-                 });
+                AddName = function (name) {
+                     $('#name').val(name);
+                 };
              });
 
     });
