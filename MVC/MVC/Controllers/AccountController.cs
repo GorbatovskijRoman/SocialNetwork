@@ -7,6 +7,8 @@ using MVC.Infrastructure;
 using MVC.Models;
 using Microsoft.AspNet.Identity.Owin;
 using System.Web;
+using System;
+using System.Linq;
 
 namespace MVC.Controllers
 {
@@ -40,6 +42,20 @@ namespace MVC.Controllers
             return View();
         }
 
+        AppUser[] mass = new AppUser[100];
+        AppSocialNetworkBDContext context = new AppSocialNetworkBDContext();
+        
+        public ActionResult Vall()
+        {
+            for(int i=0;i<100;i++)
+            {
+                UserManager.Create(new AppUser() { Admin = false, Email = "user" + i+"@mail.ru", UserName = "user" + i, ReLogin = false, ResetPass = false },"Qwerty1234@");
+                AppUser us = UserManager.FindByName("user" + i);
+                UserManager.AddToRole(us.Id, "Users");
+            }
+            return View("Login");
+        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel details, bool captchaValid, string returnUrl)

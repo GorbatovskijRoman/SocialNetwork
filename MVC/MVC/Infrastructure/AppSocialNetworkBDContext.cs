@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
+using System;
 
 namespace MVC.Infrastructure
 {
@@ -38,7 +39,6 @@ namespace MVC.Infrastructure
         {
             AppUserManager userMgr = new AppUserManager(new UserStore<AppUser>(context));
             AppRoleManager roleMgr = new AppRoleManager(new RoleStore<AppRole>(context));
-            Subscribe subscribe = new Subscribe();
 
             string roleNameForUsers = "Users";
             string roleNameForAdmin = "Administrators";

@@ -50,7 +50,6 @@ namespace MVC.Controllers
         [BlockUsers]
         public ActionResult Wall(string OwnerId = "")
         {
-
             string id = User.Identity.GetUserId();
 
             if (currentUser.ResetPass)
@@ -111,15 +110,37 @@ namespace MVC.Controllers
             }
         }
 
+        SyndicationFeed feed = new SyndicationFeed("Social", "Network", new Uri("http://localhost:52865/Wall/Rss"),
+                Guid.NewGuid().ToString(), DateTime.Now);
+        List<SyndicationItem> items = new List<SyndicationItem>();
+        
+
         public RssActionResult Rss()
         {
-            SyndicationFeed feed = new SyndicationFeed("Social", "Network", new Uri("http://localhost:52865/Wall/Wall"), 
-                Guid.NewGuid().ToString(), DateTime.Now);
-            SyndicationItem item = new SyndicationItem("Newsasd", "New in aasdasdmin", new Uri("http://localhost:52865/Wall/Settings"));
-            SyndicationItem item2 = new SyndicationItem("News", "New in admin", new Uri("http://localhost:52865/Wall/Settings"));
-            List<SyndicationItem> items = new List<SyndicationItem>();
-            items.Add(item);
-            items.Add(item2);
+            var mySubscribers = context.Subscribes.Where(x => x.UserSubscribers.Where(z => z.Id == currentUser.Id).Count() != 0);
+            if (mySubscribers.Count() != 0)
+            {
+                List<WallPost> wp = new List<WallPost>();
+                DateTime dt = DateTime.Now.AddMinutes(-30);
+                foreach (Subscribe user in mySubscribers)
+                {
+                    var posts = context.Posts.Where(x => x.Owner.Id == user.AppUserId && x.Time >= dt).ToList();
+                    if (posts.Count() != 0)
+                    {
+                        wp.AddRange(posts);
+                    }
+                }
+                if (wp.Count != 0)
+                {
+                    items = new List<SyndicationItem>();
+                    foreach (WallPost post in wp)
+                    {
+                        SyndicationItem item = new SyndicationItem(post.Owner.UserName, post.Content,
+                        new Uri("http://localhost:52865/Wall/Wall?OwnerId=" + post.Owner.Id));
+                        items.Add(item);
+                    }
+                }
+            }
             feed.Items = items;
             return new RssActionResult() { Feed = feed };
         }
@@ -331,33 +352,7 @@ namespace MVC.Controllers
             await context.SaveChangesAsync();
             return RedirectToAction("Subscribers", new { page = pageNum });
         }
-
-        [BlockUsers]
-        public ActionResult Random()
-        {
-
-            AppUser[] mass = new AppUser[100];
-            System.Random rand = new System.Random();
-            for (int i = 0; i < 100; i++)
-            {
-                mass[i] = new AppUser()
-                {
-                    Admin = false,
-                    Email = rand.Next(10000, 110000) + "@mail.ru",
-                    UserName = rand.Next(10000, 110000) + "",
-                    PasswordHash = UserManager.PasswordHasher.HashPassword("Qwerty1234@")
-                };
-            }
-
-            Block block = new Block() { UserBlocks = mass.ToList(), AppUserId = User.Identity.GetUserId() };
-            Subscribe subscribe = new Subscribe() { UserSubscribers = mass.ToList(), AppUserId = User.Identity.GetUserId() };
-            context.Blocks.Add(block);
-            context.Subscribes.Add(subscribe);
-
-            context.SaveChanges();
-            return RedirectToAction("Wall");
-        }
-
+        
         [BlockUsers]
         public async Task<ActionResult> UpdateAvatar(HttpPostedFileBase file)
         {

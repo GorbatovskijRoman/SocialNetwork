@@ -45,21 +45,21 @@ namespace MVC.Controllers
         
         public ActionResult AddPost(string Content, string to)
         {
+            
             if (Content != "")
             {
                 if (context.Blocks.Find(to) == null || !context.Blocks.Find(to).UserBlocks.Contains(currentUser))
                 {
                     AppUser Sender = context.Users.Find(to);
-                    context.Posts.Add(
-                              new WallPost()
-                              {
-                                  Content = Content,
-                                  LikeCount = 0,
-                                  Time = DateTime.Now,
-                                  Wall = Sender,
-                                  Owner = currentUser
-                              });
-
+                    WallPost wp = new WallPost()
+                    {
+                        Content = Content,
+                        LikeCount = 0,
+                        Time = DateTime.Now,
+                        Wall = Sender,
+                        Owner = currentUser
+                    };
+                    context.Posts.Add(wp);
                     context.SaveChanges();
                 }
             }
